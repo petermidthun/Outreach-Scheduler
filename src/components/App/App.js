@@ -25,11 +25,7 @@ class App extends Component {
   }
 
   render() {
-    if(this.props.user.type === 'instructor'){
-
-    }
     return (
-
       <Router>
         <div>
           <Nav />
