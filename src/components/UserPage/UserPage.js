@@ -11,7 +11,9 @@ class UserPage extends Component {
 
     getCalendar = () => {   //  Get list of programming and send to reduxState
       console.log("running getCalendar in UserPage")
-      this.props.dispatch({ type: 'FETCH_CALENDAR' });
+      console.log(this.props.reduxState.user.id);
+      let id=this.props.reduxState.user.id;
+      this.props.dispatch({ type: 'FETCH_CALENDAR', id: id });
     }
 
 

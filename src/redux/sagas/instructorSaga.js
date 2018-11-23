@@ -1,10 +1,13 @@
 import { takeLatest, call, put } from 'redux-saga/effects';
 import axios from 'axios';
 
+
 function* fetchProgramming(action) {
-    let id=3
+    console.log("state in fetchProgramming: ")
+    let userid= action.id;
+
    try{
-       const response = yield call(axios.get, `/api/instructor/programming/${id}`, {data: action.payload} );
+       const response = yield call(axios.get, `/api/instructor/programming/${userid}`, {data: action.payload} );
        yield put({ type: 'SET_INSTRUCTOR_CALENDAR_DATA', payload: response.data})
    }
    catch (error) {
@@ -14,6 +17,9 @@ function* fetchProgramming(action) {
 
 function* instructorSaga() {
    yield takeLatest('FETCH_CALENDAR', fetchProgramming);
+
+
  }
 
- export default instructorSaga;
+export default instructorSaga;
+  
