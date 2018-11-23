@@ -18,9 +18,11 @@ class LoginPage extends Component {
           password: this.state.password,
         },
       });
+      console.log("username and password matched in loginpage login function");
     } else {
       this.props.dispatch({ type: 'LOGIN_INPUT_ERROR' });
     }
+
   } // end login
 
   handleInputChangeFor = propertyName => (event) => {

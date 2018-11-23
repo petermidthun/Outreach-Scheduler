@@ -3,6 +3,8 @@ import axios from 'axios';
 
 // worker Saga: will be fired on "LOGIN" actions
 function* loginUser(action) {
+  console.log(`entering loginUser function in LoginSaga.  Payload: ${action.payload}`);
+  alert(`action.payload: ${action.payload.username}`);
   try {
     // clear any existing error on the login page
     yield put({ type: 'CLEAR_LOGIN_ERROR' });
