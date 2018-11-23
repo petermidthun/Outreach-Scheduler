@@ -2,8 +2,9 @@ import { takeLatest, call, put } from 'redux-saga/effects';
 import axios from 'axios';
 
 function* fetchProgramming(action) {
+    let id=3
    try{
-       const response = yield call(axios.get, '/api/instructor/programming', {data: action.payload} );
+       const response = yield call(axios.get, `/api/instructor/programming/${id}`, {data: action.payload} );
        yield put({ type: 'SET_INSTRUCTOR_CALENDAR_DATA', payload: response.data})
    }
    catch (error) {

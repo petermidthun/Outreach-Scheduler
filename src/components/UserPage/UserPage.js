@@ -9,7 +9,7 @@ class UserPage extends Component {
         this.getCalendar();
     }
 
-    getCalendar = () => {   //  Get list of projects and send to reduxState
+    getCalendar = () => {   //  Get list of programming and send to reduxState
       console.log("running getCalendar in UserPage")
       this.props.dispatch({ type: 'FETCH_CALENDAR' });
     }
@@ -22,7 +22,7 @@ class UserPage extends Component {
                 <p> Calendar </p>
                 
                 <pre>{JSON.stringify(this.props.reduxState)}</pre>
-                <pre>{JSON.stringify(this.props.reduxState)}</pre>
+
             </div>
         )//  End return
 
@@ -30,10 +30,9 @@ class UserPage extends Component {
 
 }  //  End component 
 
-//  map portfolio back to index (to use dispatches?)
 const mapReduxStateToProps = ( reduxState ) => ({ reduxState });
 
-//  connect index to portfolio component so we have access to reduxState props(erties)
+//  connect index to calendar component so we have access to reduxState props(erties)
 export default connect( mapReduxStateToProps )( UserPage );
 
 
