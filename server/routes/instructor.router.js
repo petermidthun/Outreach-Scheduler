@@ -6,7 +6,7 @@ const router = express.Router();
 router.get(`/programming/:id`, (req, res) => {
     console.log("in get at /programming")
     const instructorid = req.params.id;
-    const queryText = `SELECT program_instances.instance_id, programs.name, booking_dates.date , program_instances.time, clients.name as client, vans.color as van, bookings.callout, bookings.thankyou, bookings.booking_note, bookings.touron
+    const queryText = `SELECT clients.client_id, program_instances.instance_id, programs.name, booking_dates.date , program_instances.time, clients.name as client, vans.color as van, bookings.callout, bookings.thankyou, bookings.booking_note, bookings.touron
         FROM program_instances
         JOIN booking_dates ON program_instances.booking_date_id=booking_dates.booking_date_id
         JOIN bookings ON booking_dates.booking_id=bookings.booking_id
@@ -25,6 +25,26 @@ router.get(`/programming/:id`, (req, res) => {
             console.log('Error completing calendar query', err);
             res.sendStatus(500);
         });
+});
+
+router.get(`/clienthistory`, (req, res) => {
+    console.log("in get at /clienthistory")
+    const queryText = `SELECT clients.client_id, booking_dates.date, instructors.name as instructor_name
+    FROM program_instances
+    JOIN booking_dates ON program_instances.booking_date_id=booking_dates.booking_date_id
+    JOIN instructors ON program_instances.instructor_id=instructors.instructor_id
+    JOIN bookings ON booking_dates.booking_id=bookings.booking_id
+    JOIN clients ON bookings.client_id=clients.client_id;`;
+pool.query(queryText)
+
+    .then((result) => {
+        console.log("result.rows: ", result.rows);
+        res.send(result.rows);
+    })
+    .catch((err) => {
+        console.log('Error completing calendar query', err);
+        res.sendStatus(500);
+    });
 });
 
 /**

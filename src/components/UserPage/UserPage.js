@@ -33,6 +33,8 @@ class UserPage extends Component {
       console.log(this.props.reduxState.instructorCalendarReducer);
       let id=this.props.reduxState.user.id;
       this.props.dispatch({ type: 'FETCH_CALENDAR', id: id });
+      this.props.dispatch({ type: 'FETCH_CLIENT_HISTORY'});
+      
     }
 
     
@@ -65,7 +67,30 @@ class UserPage extends Component {
                             {this.props.reduxState.instructorCalendarReducer.map(row => {
                                 let date = row.date.split('T05:00:00.000Z');
                                 let note = row.booking_note;
-                                return (
+
+
+
+                                let recentlyVisited2 = [];
+                                let recentlyVisited = this.props.reduxState.clientHistoryReducer;
+                                console.log({ recentlyVisited })
+                                recentlyVisited = recentlyVisited.filter(function (item) {
+                                    return item.client_id === row.client_id;
+                                });
+                                for (let instructorVisitObject of recentlyVisited) {
+                                    let date = instructorVisitObject.date.substring(0, 4);
+                                    let namedate = instructorVisitObject.instructor_name + " in " + date;
+                                    console.log({ namedate });
+                                    recentlyVisited2.unshift(namedate);
+                                }
+                                console.log({ recentlyVisited2 })
+
+
+
+
+
+                                   
+                                
+                                    return (
                                     <TableRow  key={row.instance_id}>
                                         <TableCell component="th" scope="row">
                                             {row.client}
@@ -79,7 +104,7 @@ class UserPage extends Component {
                                         <TableCell><Checkbox checked={row.thankyou} disabled /></TableCell>
                                         <TableCell><Tooltip title={note}><Checkbox /></Tooltip></TableCell>
                                         <TableCell><Checkbox disabled/></TableCell>
-                                        <TableCell><Checkbox disabled/></TableCell>
+                                        <TableCell><Checkbox title={recentlyVisited2}/></TableCell>
                                     </TableRow>
                                 )
                             })}

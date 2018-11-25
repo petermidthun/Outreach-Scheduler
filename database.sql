@@ -164,7 +164,7 @@ VALUES
 
 
 --  Instructor Calendar View
-SELECT program_instances.instance_id, programs.name, booking_dates.date , program_instances.time, clients.name as client, vans.color as van, bookings.callout, bookings.thankyou, bookings.booking_note, bookings.touron
+SELECT clients.client_id, program_instances.instance_id, programs.name, booking_dates.date , program_instances.time, clients.name as client, vans.color as van, bookings.callout, bookings.thankyou, bookings.booking_note, bookings.touron
         FROM program_instances
         JOIN booking_dates ON program_instances.booking_date_id=booking_dates.booking_date_id
         JOIN bookings ON booking_dates.booking_id=bookings.booking_id
@@ -174,3 +174,10 @@ SELECT program_instances.instance_id, programs.name, booking_dates.date , progra
         JOIN instructors ON program_instances.instructor_id=instructors.instructor_id
         WHERE instructors.instructor_id = ${instructorid} ORDER BY DATE;
 
+        
+SELECT clients.client_id, booking_dates.date, instructors.name as instructor_name
+    FROM program_instances
+    JOIN booking_dates ON program_instances.booking_date_id=booking_dates.booking_date_id
+    JOIN instructors ON program_instances.instructor_id=instructors.instructor_id
+    JOIN bookings ON booking_dates.booking_id=bookings.booking_id
+    JOIN clients ON bookings.client_id=clients.client_id;
