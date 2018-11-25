@@ -37,9 +37,6 @@ class UserPage extends Component {
       
     }
 
-    
-    
-
     render() {
         const { classes } = this.props;
         return (
@@ -58,29 +55,26 @@ class UserPage extends Component {
                                 <TableCell>Thanks sent?</TableCell>
                                 <TableCell>See note</TableCell>
                                 <TableCell>Feedback</TableCell>
-                                <TableCell>Recently there</TableCell>
+                               
 
 
                             </TableRow>
                         </TableHead>
                         <TableBody>
                             {this.props.reduxState.instructorCalendarReducer.map(row => {
-                                let date = row.date.split('T05:00:00.000Z');
-                                let note = row.booking_note;
-
+                            
 
 
                                 let recentlyVisited2 = [];
                                 let recentlyVisited = this.props.reduxState.clientHistoryReducer;
-                                console.log({ recentlyVisited })
                                 recentlyVisited = recentlyVisited.filter(function (item) {
                                     return item.client_id === row.client_id;
                                 });
                                 for (let instructorVisitObject of recentlyVisited) {
                                     let date = instructorVisitObject.date.substring(0, 4);
                                     let namedate = instructorVisitObject.instructor_name + " in " + date;
-                                    console.log({ namedate });
                                     recentlyVisited2.unshift(namedate);
+                                    if(recentlyVisited2[0]===recentlyVisited2[1]){recentlyVisited2.shift(namedate)};
                                 }
                                 console.log({ recentlyVisited2 })
 
@@ -92,19 +86,19 @@ class UserPage extends Component {
                                 
                                     return (
                                     <TableRow  key={row.instance_id}>
-                                        <TableCell component="th" scope="row">
+                                        <TableCell title={recentlyVisited2} component="th" scope="row">
                                             {row.client}
                                         </TableCell>
                                         <TableCell >{row.name}</TableCell>
-                                        <TableCell >{date}</TableCell>
+                                        <TableCell >{row.date.substring(0, 10)}</TableCell>
                                         <TableCell>{row.time}</TableCell>
                                         <TableCell>{row.van}</TableCell>
                                         <TableCell><Checkbox checked={row.touron} disabled /></TableCell>
                                         <TableCell><Checkbox checked={row.callout} disabled /></TableCell>
                                         <TableCell><Checkbox checked={row.thankyou} disabled /></TableCell>
-                                        <TableCell><Tooltip title={note}><Checkbox /></Tooltip></TableCell>
+                                        <TableCell><Tooltip title={row.booking_note}><Checkbox /></Tooltip></TableCell>
                                         <TableCell><Checkbox disabled/></TableCell>
-                                        <TableCell><Checkbox title={recentlyVisited2}/></TableCell>
+                                        
                                     </TableRow>
                                 )
                             })}
