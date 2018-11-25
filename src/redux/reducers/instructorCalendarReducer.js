@@ -14,11 +14,12 @@
 //  TourON:     FALSE   }
 
 
-const instructorCalendarTableReducer = (state = [], action) => {
+const instructorCalendarReducer = (state = [], action) => {
     switch (action.type) {
-        case 'SET_TABLE_DATA':
+        case 'SET_INSTRUCTOR_CALENDAR_DATA':
+            console.log("set_instructor_calendar_data triggered");
             return action.payload;  //  payload is put into state
-        case 'UNSET_TABLE_DATA':
+        case 'UNSET_INSTRUCTOR_CALENDAR_DATA':
             return [];              //  state is set to empty array
         default:
             return state;
@@ -27,5 +28,5 @@ const instructorCalendarTableReducer = (state = [], action) => {
   
   // user will be on the redux state at:
   // state.user
-  export default instructorCalendarTableReducer;
+  export default instructorCalendarReducer;
   

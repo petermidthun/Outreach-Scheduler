@@ -3,6 +3,7 @@ import axios from 'axios';
 
 // worker Saga: will be fired on "LOGIN" actions
 function* loginUser(action) {
+  console.log(`entering loginUser function in LoginSaga.  Payload: ${action.payload}`);
   try {
     // clear any existing error on the login page
     yield put({ type: 'CLEAR_LOGIN_ERROR' });
@@ -53,6 +54,7 @@ function* logoutUser(action) {
     // remove the client-side user object to let
     // the client-side code know the user is logged out
     yield put({ type: 'UNSET_USER' });
+    yield put({ type: 'UNSET_INSTRUCTOR_CALENDAR_DATA' });
 
   } catch (error) {
     console.log('Error with user logout:', error);
