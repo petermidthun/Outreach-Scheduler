@@ -2,14 +2,12 @@ const express = require('express');
 const pool = require('../modules/pool');
 const router = express.Router();
 
-/**
- * GET route template
- */
+
 router.get(`/programming/:id`, (req, res) => {
     console.log("in get at /programming")
     const instructorid = req.params.id;
-    const queryText = `SELECT programs.name, booking_dates.date, program_instances.time, clients.name, vans.color as van, bookings.callout, bookings.thankyou, bookings.booking_note, bookings.touron
-        FROM program_instances 
+    const queryText = `SELECT program_instances.instance_id, programs.name, booking_dates.date , program_instances.time, clients.name as client, vans.color as van, bookings.callout, bookings.thankyou, bookings.booking_note, bookings.touron
+        FROM program_instances
         JOIN booking_dates ON program_instances.booking_date_id=booking_dates.booking_date_id
         JOIN bookings ON booking_dates.booking_id=bookings.booking_id
         JOIN clients ON bookings.client_id=clients.client_id

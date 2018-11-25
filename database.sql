@@ -118,7 +118,7 @@ CREATE TABLE "booking_dates" (
     "van_id" INT REFERENCES "vans"
 );
 
-INSERT INTO "booking_dates" ("booking_id", "date", "van_id") 
+INSERT INTO "booking_dates" ("booking_id", "date::date", "van_id") 
 VALUES (1, '2017-03-23', 1), 
         (2, '2018-04-21', 2), (2, '2018-04-22', 2), (2, '2018-04-23', 2),
         (3, '2017-03-11', 3), (4, '2018-03-20', 3),
@@ -164,13 +164,13 @@ VALUES
 
 
 --  Instructor Calendar View
-SELECT programs.name, booking_dates.date, program_instances.time, clients.name, vans.color as van, bookings.callout, bookings.thankyou, bookings.booking_note, bookings.touron
-FROM program_instances 
-JOIN booking_dates ON program_instances.booking_date_id=booking_dates.booking_date_id
-JOIN bookings ON booking_dates.booking_id=bookings.booking_id
-JOIN clients ON bookings.client_id=clients.client_id
-JOIN programs ON program_instances.program_id=programs.program_id
-JOIN vans ON booking_dates.van_id=vans.van_id
-JOIN instructors ON program_instances.instructor_id=instructors.instructor_id
-WHERE instructors.instructor_id = 1;
+SELECT program_instances.instance_id, programs.name, booking_dates.date , program_instances.time, clients.name as client, vans.color as van, bookings.callout, bookings.thankyou, bookings.booking_note, bookings.touron
+        FROM program_instances
+        JOIN booking_dates ON program_instances.booking_date_id=booking_dates.booking_date_id
+        JOIN bookings ON booking_dates.booking_id=bookings.booking_id
+        JOIN clients ON bookings.client_id=clients.client_id
+        JOIN programs ON program_instances.program_id=programs.program_id
+        JOIN vans ON booking_dates.van_id=vans.van_id
+        JOIN instructors ON program_instances.instructor_id=instructors.instructor_id
+        WHERE instructors.instructor_id = ${instructorid} ORDER BY DATE;
 
