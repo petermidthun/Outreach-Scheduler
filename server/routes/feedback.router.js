@@ -25,4 +25,25 @@ router.put('/calloutinformation', (req, res) => {
       });
   });
 
+  router.put('/bookingnote', (req, res) => {
+    console.log("in put at bookingnote")
+      const body = req.body;
+    console.log("req.body: ", body)
+      const queryText = `UPDATE bookings
+      SET booking_note = $1
+      WHERE booking_id =$2;`;
+    
+      const queryValues = [
+          body.booking_note,
+          body.booking_id,
+      ];
+    
+      pool.query(queryText, queryValues)
+        .then(() => { res.sendStatus(200); })
+        .catch((err) => {
+          console.log('Error updating booking note information', err);
+          res.sendStatus(500);
+        });
+    });
+
 module.exports = router;

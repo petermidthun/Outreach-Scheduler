@@ -10,6 +10,7 @@ import TableCell from '@material-ui/core/TableCell';
 import TableHead from '@material-ui/core/TableHead';
 import TableRow from '@material-ui/core/TableRow';
 import Paper from '@material-ui/core/Paper';
+import './FeedbackPage.css'
 
 const styles = theme => ({
     textField: {
@@ -26,6 +27,7 @@ class FeedbackPage extends Component {
     }
 
     componentDidMount() {
+        console.log("didmount");
         this.updateState();
     }
 
@@ -37,7 +39,6 @@ class FeedbackPage extends Component {
 }
 
     handleNameChange = event => {
-        console.log('event happended')
         this.setState({
             [event.target.name]: event.target.value,
         });
@@ -49,7 +50,7 @@ class FeedbackPage extends Component {
         event.preventDefault();
         let object = {
             booking_note: this.state.booking_note,
-            booking_id: this.props.reduxState.calloutInformationReducer.booking_id, };
+            booking_id: this.props.reduxState.bookingNoteReducer.booking_id, };
         this.props.dispatch({ type: 'UPDATE_BOOKING_NOTE', payload: object })
     }
 
@@ -66,43 +67,52 @@ class FeedbackPage extends Component {
     render() {
         const { classes } = this.props;
         return (
-            <div>
-                    <TextField
-                        name="call_out_information"
-                        style={{ width: 400 }}
-                        id="filled-multiline-static"
-                        label="Click 'update information' to save changes"
-                        multiline
-                        rows="20"
-                        defaultValue={this.props.reduxState.calloutInformationReducer.call_out_information}
-                        className={classes.textField}
-                        margin="normal"
-                        variant="filled"
-                        onChange={this.handleNameChange}
-                    />
-                    <input onClick={this.informationUpdateReducer} value='Update information' />
-               
-                <TextField
-                    name="booking_note"
-                    style={{ width: 400 }}
-                    id="filled-multiline-static"
-                    label="Click 'update note' to save changes"
-                    multiline
-                    rows="20"
-                    defaultValue={this.props.reduxState.bookingNoteReducer.booking_note}
-                    className={classes.textField}
-                    margin="normal"
-                    variant="filled"
-                    onChange={this.handleNameChange}
-                />
-               <input onClick={this.noteUpdateReducer} value='Update note' />
-               
+            <div id="bigdiv">
+                <div className="smalldivs">
+                    <div>
+                        <TextField
+                            name="call_out_information"
+                            style={{ width: 400 }}
+                            id="filled-multiline-static"
+                            label="Click 'UPDATE' to save changes"
+                            multiline
+                            rows="20"
+                            defaultValue={this.props.reduxState.calloutInformationReducer.call_out_information}
+                            className={classes.textField}
+                            margin="normal"
+                            variant="filled"
+                            onChange={this.handleNameChange}
+                        />
+                    </div>
+                    <div>
+                    <button onClick={this.informationUpdateReducer}>UPDATE</button>
+                    </div>
+            </div>
+            <div className="smalldivs">
+                    <div>
+                        <TextField
+                            name="booking_note"
+                            style={{ width: 400 }}
+                            id="filled-multiline-static"
+                            label="Click 'UPDATE' to save changes"
+                            multiline
+                            rows="20"
+                            defaultValue={this.props.reduxState.bookingNoteReducer.booking_note}
+                            className={classes.textField}
+                            margin="normal"
+                            variant="filled"
+                            onChange={this.handleNameChange}
+                        /></div>
+                    <div>
+                        <button onClick={this.noteUpdateReducer}>UPDATE</button>
+                    </div>
+                    </div>
             </div >
         ) //  end return
     }  //  end render
 }  //  End component FeedbackPage
 
-const mapReduxStateToProps = ( reduxState ) => ({ reduxState });
+const mapReduxStateToProps = (reduxState) => ({ reduxState });
 
 //  connect index to calendar component so we have access to reduxState props(erties)
 export default connect(mapReduxStateToProps)(withStyles(styles)(FeedbackPage));

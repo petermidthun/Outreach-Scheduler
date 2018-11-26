@@ -179,8 +179,13 @@ SELECT clients.client_id, booking_dates.date, instructors.name as instructor_nam
     FROM clients
     WHERE clients.client_id=${clientid};
 
--- put 
+-- puts for callout info and booking note
     UPDATE clients
     SET call_out_information = $1
     WHERE
      client_id=$2;
+
+     UPDATE bookings
+     SET booking_note = $1
+     WHERE booking_id =$2;
+

@@ -17,10 +17,25 @@ class CalloutPage extends Component {
         const { classes } = this.props;
         return (
             <div>
+                <span>
                 <label>Contact Name:</label>
+                </span><span>
+                <p>Shelley</p>
+                </span><span>
                 <label>Contact Number:</label>
+                </span><span>
+                <p> 651 234 5563</p>
+                </span><span>
                 <label>Contact Role:</label>
-                    Callout Page
+                </span><span>
+                <p> PTA President </p>
+                </span>
+                
+                <div>
+                <label>Client:</label>
+                <label>E-mail:</label>
+                </div>
+                    
             </div >
         ) //  end return
     }  //  end render
