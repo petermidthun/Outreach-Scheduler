@@ -41,8 +41,8 @@ CREATE TABLE "instructors" (
 
 INSERT INTO "instructors" ("name", "total_hours", "user_id")
 VALUES 
-('Peter', 112, 1),
-('Sue', 115, 2),
+('Ruiz', 112, 1),
+('Jaquan', 115, 2),
 ('keesha', 55, 3);
 
 --  Holds a list of programs that might be purchased/presented
@@ -63,7 +63,7 @@ CREATE TABLE "vans" (
 );
 
 INSERT INTO "vans" ("color")
-VALUES ('Red'),('Green'), ('Purple');
+VALUES ('Red'),('Green'), ('Purple'), ('Yellow');
 
 --  Holds a list of bookings for each client
 --  One booking may consist of multiple dates and program instances 
@@ -79,8 +79,8 @@ CREATE TABLE "bookings" (
     "tourorovernight" boolean DEFAULT FALSE   --  is this booking an overnight or regional tour
 );
 
-INSERT INTO "bookings" ("client_id", "booking_note") 
-VALUES (1, 'elec, eng 7, 9, 3/23, keesha, Happy Apple'), (2, 'lots o waters, 4/21+4/22+4/23, Peter and Sue, kittson'), (3, 'Eng, 3/11/17 german'), (3, 'Elec, 3/20/18 german'), (4, 'water, anthony, 2016'), (4, 'water, anthony, 2017'), (4, 'water, anthony, 2018');
+INSERT INTO "bookings" ("client_id", "booking_note", "tourorovernight") 
+VALUES (1, 'elec and eng 7am, 9am, 3/23, keesha, Happy Apple', TRUE), (2, 'lots o waters, 4/21+4/22+4/23, Ruiz and Jaquan, kittson', TRUE), (3, 'Eng, 3/11/17 german', FALSE), (3, 'Elec, 3/20/18 german', FALSE), (4, 'water, anthony, 2016', FALSE), (4, 'water, anthony, 2017', FALSE), (4, 'water, anthony, 2018', FALSE);
 
 
 CREATE TABLE "program_feedback" ( --  holds feedback submitted by instructors
@@ -100,6 +100,7 @@ CREATE TABLE "van_issues" (     --  holds van issues submitted by instrutors
     "issue_id" SERIAL PRIMARY KEY,
     "van_id" INT REFERENCES "vans",
     "instructor_id" INT REFERENCES "instructors",
+
     "date_submitted" DATE,
     "issue" VARCHAR(255),
     "resolved" Boolean DEFAULT FALSE
@@ -107,7 +108,8 @@ CREATE TABLE "van_issues" (     --  holds van issues submitted by instrutors
 
 INSERT INTO "van_issues" ("van_id", "instructor_id", "date_submitted", "issue") 
 VALUES (1, 1, '2018-3-22','check engine light'), (1, 3, '2018-3-23', 'brakes squeeking' ), 
-        (2, 2, '2018-3-23', 'front left tire low' ), (3, 1, '2018-3-24', 'big scratch, left side' );
+        (2, 2, '2018-3-23', 'front left tire low' ), (3, 1, '2018-3-24', 'big scratch, left side' ),
+        (4, 2, '2018-04-24', 'cigarette lighter broke');
 
 --  Holds dates associated with particular bookings
 
@@ -118,9 +120,9 @@ CREATE TABLE "booking_dates" (
     "van_id" INT REFERENCES "vans"
 );
 
-INSERT INTO "booking_dates" ("booking_id", "date::date", "van_id") 
+INSERT INTO "booking_dates" ("booking_id", "date", "van_id") 
 VALUES (1, '2017-03-23', 1), 
-        (2, '2018-04-21', 2), (2, '2018-04-22', 2), (2, '2018-04-23', 2),
+        (2, '2018-04-21', 2), (2, '2018-04-22', 2), (2, '2018-04-23', 4),
         (3, '2017-03-11', 3), (4, '2018-03-20', 3),
         (5, '2016-03-25', 2 ), (6, '2017-04-22', 1 ), (7, '2018-03-22', 1 );
 
@@ -148,23 +150,8 @@ VALUES
 (9, 2, 2, '010:00:00', FALSE );
 
 
-
--- CREATE TABLE "previous_visits" (
---     "visit_id" SERIAL PRIMARY KEY,
---     "client_id" INT REFERENCES "clients",
---     "instructor_id" INT REFERENCES "instructors",
---     "date" DATE
--- );
-
--- INSERT INTO "previous_visits" ("client_id", "instructor_id", "date") 
--- VALUES (1, 1, '2017-03-22'), (1, 3, '2018-04-22' ), 
---         (2, 2, '2017-03-02' ), (2, 1, '2018-03-12' ),
---         (3, 3, '2017-03-25' ), (3, 2, '2018-04-22' ),
---         (1, 2, '2016-03-22' ), (2, 3, '2016-03-22' );
-
-
 --  Instructor Calendar View
-SELECT clients.client_id, program_instances.instance_id, programs.name, booking_dates.date , program_instances.time, clients.name as client, vans.color as van, bookings.callout, bookings.thankyou, bookings.booking_note, bookings.touron
+SELECT clients.client_id, bookings.booking_id, program_instances.instance_id, programs.name, booking_dates.date , program_instances.time, clients.name as client, vans.color as van, bookings.callout, bookings.thankyou, bookings.booking_note, bookings.tourorovernight
         FROM program_instances
         JOIN booking_dates ON program_instances.booking_date_id=booking_dates.booking_date_id
         JOIN bookings ON booking_dates.booking_id=bookings.booking_id
@@ -174,10 +161,26 @@ SELECT clients.client_id, program_instances.instance_id, programs.name, booking_
         JOIN instructors ON program_instances.instructor_id=instructors.instructor_id
         WHERE instructors.instructor_id = ${instructorid} ORDER BY DATE;
 
-        
+--  Recently visited client        
 SELECT clients.client_id, booking_dates.date, instructors.name as instructor_name
     FROM program_instances
     JOIN booking_dates ON program_instances.booking_date_id=booking_dates.booking_date_id
     JOIN instructors ON program_instances.instructor_id=instructors.instructor_id
     JOIN bookings ON booking_dates.booking_id=bookings.booking_id
     JOIN clients ON bookings.client_id=clients.client_id;
+
+--  get booking note based on booking id
+    SELECT bookings.booking_id, bookings.booking_note
+    FROM bookings
+    WHERE bookings.booking_id=${bookingid};
+
+--  get callout info based on client id
+    SELECT clients.client_id, clients.call_out_information
+    FROM clients
+    WHERE clients.client_id=${clientid};
+
+-- put 
+    UPDATE clients
+    SET call_out_information = $1
+    WHERE
+     client_id=$2;

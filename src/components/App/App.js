@@ -17,6 +17,7 @@ import AboutPage from '../AboutPage/AboutPage';
 import UserPage from '../UserPage/UserPage';
 import InfoPage from '../InfoPage/InfoPage';
 import FeedbackPage from '../FeedbackPage/FeedbackPage';
+import CalloutPage from '../CalloutPage/CalloutPage';
 
 import './App.css';
 
@@ -60,6 +61,11 @@ class App extends Component {
               exact
               path="/feedback"
               component={FeedbackPage}
+            />
+            <ProtectedRoute
+              exact
+              path="/callout"
+              component={CalloutPage}
             />
             {/* If none of the other routes matched, we will show a 404. */}
             <Route render={() => <h1>404</h1>} />

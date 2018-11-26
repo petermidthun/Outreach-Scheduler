@@ -23,6 +23,11 @@ const styles = theme => ({
 
 
 class UserPage extends Component {
+    state = {
+        client_id: 0,
+        booking_id: 0,
+    }
+
     //  Display projects when page loads
     componentDidMount() {
         this.getCalendar();
@@ -35,6 +40,13 @@ class UserPage extends Component {
       this.props.dispatch({ type: 'FETCH_CALENDAR', id: id });
       this.props.dispatch({ type: 'FETCH_CLIENT_HISTORY'});
       
+    }
+
+    updateReducers = event => {
+        event.preventDefault();
+        console.log('running updateReducers in UserPage, bookingid: ', this.state.booking_id, ' clientid: ', this.state.client_id);
+        this.props.dispatch({ type: 'FETCH_BOOKING_NOTE', id: this.state.booking_id });
+        this.props.dispatch({ type: 'FETCH_CALL_OUT_INFORMATION', id: this.state.client_id });
     }
 
     render() {
@@ -50,7 +62,7 @@ class UserPage extends Component {
                                 <TableCell> Date </TableCell>
                                 <TableCell>Time</TableCell>
                                 <TableCell>Van</TableCell>
-                                <TableCell>Tour or ON?</TableCell>
+                                <TableCell>ON?</TableCell>
                                 <TableCell>Called out?</TableCell>
                                 <TableCell>Thanks sent?</TableCell>
                                 <TableCell>See note</TableCell>
@@ -62,7 +74,8 @@ class UserPage extends Component {
                         </TableHead>
                         <TableBody>
                             {this.props.reduxState.instructorCalendarReducer.map(row => {
-                            
+                                this.state.client_id=row.client_id;
+                                this.state.booking_id=row.booking_id;
 
 
                                 let recentlyVisited2 = [];
@@ -93,11 +106,20 @@ class UserPage extends Component {
                                         <TableCell >{row.date.substring(0, 10)}</TableCell>
                                         <TableCell>{row.time}</TableCell>
                                         <TableCell>{row.van}</TableCell>
-                                        <TableCell><Checkbox checked={row.touron} disabled /></TableCell>
-                                        <TableCell><Checkbox checked={row.callout} disabled /></TableCell>
-                                        <TableCell><Checkbox checked={row.thankyou} disabled /></TableCell>
+                                        <TableCell><Checkbox checked={row.tourorovernight}  /></TableCell>
+                                        <TableCell><Checkbox checked={row.callout}  />
+                                        <a href="http://localhost:3000/#/callout" onMouseDown={this.updateReducers}>
+                                        Complete
+                                        </a>
+                                        </TableCell>
+                                        <TableCell><Checkbox checked={row.thankyou}  /></TableCell>
                                         <TableCell><Tooltip title={row.booking_note}><Checkbox /></Tooltip></TableCell>
-                                        <TableCell><Checkbox disabled/></TableCell>
+                                        <TableCell><Checkbox disabled />
+                                        
+                                        <a href="http://localhost:3000/#/feedback" onMouseDown={this.updateReducers}>
+                                        Provide
+                                        </a>
+                                        </TableCell>
                                         
                                     </TableRow>
                                 )
