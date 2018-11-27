@@ -16,6 +16,8 @@ import './FeedbackPage.css'
 //  ToDo:  CRITICAL fields are emptied on refresh, but still update
 //  to overwrite originals.  This is BAD!!
 
+
+
 const styles = theme => ({  //  Material-ui stuff
     textField: {
         marginLeft: 5,
@@ -93,7 +95,7 @@ class FeedbackPage extends Component {
         const { classes } = this.props;
         return (
             <div>
-                <div id="bigdiv">
+                <div className="bigdiv">
                     <div className="smalldivs">
                         <div>
                             <TextField
@@ -135,6 +137,25 @@ class FeedbackPage extends Component {
                     </div>
                     {/* End of bigdiv below */}
                 </div >
+                <div><p></p></div>
+                <div className="bigdiv">
+                <div id="vandiv">
+                <Paper className={classes.root}>
+                    <Table className={classes.table} >
+                        <TableHead>
+                            <TableRow>
+                                <TableCell >Header</TableCell>
+                                </TableRow>
+                        </TableHead>
+                        <TableBody>
+                        <TableRow>
+                                <TableCell >Body</TableCell>
+                                </TableRow>
+                        </TableBody>
+                    </Table>
+                </Paper>
+                </div>
+                </div>
                 {/* End of return below */}
             </div>
         ) //  end return
