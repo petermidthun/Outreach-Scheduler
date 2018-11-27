@@ -12,6 +12,8 @@ import Paper from '@material-ui/core/Paper';
 import Checkbox from '@material-ui/core/Checkbox';
 import Tooltip from '@material-ui/core/Tooltip';
 
+//  Todos commented on far right
+
 const styles = theme => ({
     root: {
       width: '100%',
@@ -65,62 +67,66 @@ class UserPage extends Component {
                                 <TableCell>ON?</TableCell>
                                 <TableCell>Called out?</TableCell>
                                 <TableCell>Thanks sent?</TableCell>
-                                <TableCell>See note</TableCell>
+
                                 <TableCell>Feedback</TableCell>
-                               
+
 
 
                             </TableRow>
                         </TableHead>
                         <TableBody>
                             {this.props.reduxState.instructorCalendarReducer.map(row => {
-                                this.state.client_id=row.client_id;
-                                this.state.booking_id=row.booking_id;
-
-
-                                let recentlyVisited2 = [];
-                                let recentlyVisited = this.props.reduxState.clientHistoryReducer;
-                                recentlyVisited = recentlyVisited.filter(function (item) {
+                                //  +++  THIS DOES NOT WORK SO I HAD TO MUTATE STATE FOR NOW
+                                // this.setState({
+                                //     client_id: row.client_id,
+                                //     booking_id: row.booking_id,
+                                // });
+                                        this.state.client_id = row.client_id;
+                                        this.state.booking_id = row.booking_id;
+//  Todo: put below code in a function
+                                //  This code messily takes the array of all instances of when an instructor
+                                //  visited the client for this program instance, then filters duplicates
+                                //  and less recent visits for the same instructor  
+                                let recentlyVisitedFiltered = [];
+                                let recentlyVisitedAll = this.props.reduxState.clientHistoryReducer;
+                                recentlyVisitedAll = recentlyVisitedAll.filter(function (item) {
                                     return item.client_id === row.client_id;
                                 });
-                                for (let instructorVisitObject of recentlyVisited) {
+                                for (let instructorVisitObject of recentlyVisitedAll) {
                                     let date = instructorVisitObject.date.substring(0, 4);
                                     let namedate = instructorVisitObject.instructor_name + " in " + date;
-                                    recentlyVisited2.unshift(namedate);
-                                    if(recentlyVisited2[0]===recentlyVisited2[1]){recentlyVisited2.shift(namedate)};
+                                    recentlyVisitedFiltered.unshift(namedate);
+                                    if (recentlyVisitedFiltered[0] === recentlyVisitedFiltered[1]) { recentlyVisitedFiltered.shift(namedate) };
                                 }
-                                console.log({ recentlyVisited2 })
+                                console.log({ recentlyVisitedFiltered })
+//  End function
 
-
-
-
-
-                                   
-                                
-                                    return (
-                                    <TableRow  key={row.instance_id}>
-                                        <TableCell title={recentlyVisited2} component="th" scope="row">
+                                return (
+                                    <TableRow key={row.instance_id}>
+                                        <TableCell title={recentlyVisitedFiltered} component="th" scope="row">
                                             {row.client}
                                         </TableCell>
-                                        <TableCell >{row.name}</TableCell>
+                                        <TableCell title={row.booking_note}>{row.name}</TableCell>
                                         <TableCell >{row.date.substring(0, 10)}</TableCell>
                                         <TableCell>{row.time}</TableCell>
                                         <TableCell>{row.van}</TableCell>
-                                        <TableCell><Checkbox checked={row.tourorovernight}  /></TableCell>
-                                        <TableCell><Checkbox checked={row.callout}  />
-                                        <a href="http://localhost:3000/#/callout" onMouseDown={this.updateReducers}>
-                                        Complete
+                                        <TableCell><Checkbox color='blue' checked={row.tourorovernight} /></TableCell>
+                                        <TableCell><Checkbox color='blue' checked={row.callout} />
+                                         {/* MouseUp does not work for the ref below as the specified reducers reset when the referenced page loads... */}
+{/* ToDo:  Better to do this by loading the component rather than navigating to the page address?*/}
+                                            <a href="http://localhost:3000/#/callout" onMouseDown={this.updateReducers}>
+                                                Complete
                                         </a>
                                         </TableCell>
-                                        <TableCell><Checkbox checked={row.thankyou}  /></TableCell>
-                                        <TableCell><Tooltip title={row.booking_note}><Checkbox /></Tooltip></TableCell>
+                                        <TableCell><Checkbox color='blue' checked={row.thankyou} /></TableCell>
                                         <TableCell><Checkbox disabled />
-                                        
-                                        <a href="http://localhost:3000/#/feedback" onMouseDown={this.updateReducers}>
-                                        Provide
+                                        {/* MouseUp does not work for the ref below as the specified reducers reset when the referenced page loads... */}
+{/* ToDo:  Better to do this by loading the component rather than navigating to the page address?*/}   
+                                        <a href="http://localhost:3000/#/feedback" onMouseDown={this.updateReducers}>  
+                                                Provide
                                         </a>
                                         </TableCell>
-                                        
+
                                     </TableRow>
                                 )
                             })}
@@ -145,46 +151,9 @@ class UserPage extends Component {
 
 }  //  End component 
 
-
-    
-
+//  Make reduxstate where it is available here as reduxState
 const mapReduxStateToProps = ( reduxState ) => ({ reduxState });
 
-//  connect index to calendar component so we have access to reduxState props(erties)
-//export default connect( mapReduxStateToProps )( UserPage );
+//  connect reduxstate to userpage component so we have access to reduxState props(erties)
+//  also connect styles for material-ui
 export default connect(mapReduxStateToProps)(withStyles(styles)(UserPage));
-
-
-
-
-
-
-
-
-
-// // this could also be written with destructuring parameters as:
-// // const UserPage = ({ user }) => (
-// // and then instead of `props.user.username` you could use `user.username`
-
-// console.log("userpage")
-
-// const UserPage = (props) => (
-//   <div>
-//     <h1 id="welcome">
-//       Welcome, { props.user.username }!
-//     </h1>
-//     <p>Your ID is: {props.user.id}</p>
-//     <p>Your are a(n): {props.user.type}</p>
-//     <LogOutButton className="log-in" />
-//   </div>
-// );
-
-// // Instead of taking everything from state, we just want the user info.
-// // if you wanted you could write this code like this:
-// // const mapStateToProps = ({user}) => ({ user });
-// const mapStateToProps = state => ({
-//   user: state.user,
-// });
-
-// // this allows us to use <App /> in index.js
-// export default connect(mapStateToProps)(UserPage);

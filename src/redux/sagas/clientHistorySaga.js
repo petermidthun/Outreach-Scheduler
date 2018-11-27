@@ -1,6 +1,10 @@
 import { takeLatest, call, put } from 'redux-saga/effects';
 import axios from 'axios';
 
+//  Primarily for organizational purposes rather than 
+//  asynchronicity issues, this file mediates the get 
+//  from the server for the clientHistoryReducer
+
 
 function* fetchClientHistory(action) {
     console.log("in fetchClientHistory: ")

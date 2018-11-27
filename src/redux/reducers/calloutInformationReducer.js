@@ -1,3 +1,5 @@
+//  Stores the calloutinformation string/text for a particular client
+//  Example state:  {'blah blah blah'}
 
 const calloutInformationReducer = (state = {}, action) => {
     switch (action.type) {
@@ -14,6 +16,5 @@ const calloutInformationReducer = (state = {}, action) => {
     }
 };
   
-  // user will be on the redux state at:
-  // state.user
+
   export default calloutInformationReducer;

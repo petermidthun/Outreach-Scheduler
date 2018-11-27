@@ -1,4 +1,5 @@
-
+//  Stores the booking_note string/text for a particular client
+//  Example state:  {'blah blah blah'}
 
 const bookingNoteReducer = (state = {}, action) => {
     switch (action.type) {

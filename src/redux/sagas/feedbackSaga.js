@@ -28,6 +28,8 @@ function* updateBookingNote(action) {
     }
 }
 
+//  Makes sure each function runs after the others have completed
+//  to prefent asynchronicity (generator function)
 function* feedbackSaga() {
    yield takeLatest('UPDATE_CALLOUT_INFORMATION', updateCalloutInformation);
    yield takeLatest('UPDATE_BOOKING_NOTE', updateBookingNote);

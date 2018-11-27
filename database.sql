@@ -108,8 +108,9 @@ CREATE TABLE "van_issues" (     --  holds van issues submitted by instrutors
 
 INSERT INTO "van_issues" ("van_id", "instructor_id", "date_submitted", "issue") 
 VALUES (1, 1, '2018-3-22','check engine light'), (1, 3, '2018-3-23', 'brakes squeeking' ), 
-        (2, 2, '2018-3-23', 'front left tire low' ), (3, 1, '2018-3-24', 'big scratch, left side' ),
-        (4, 2, '2018-04-24', 'cigarette lighter broke');
+        (2, 2, '2018-3-23', 'front left tire low' ), (2, 2, '2018-3-23', 'out of wiper fluid' ), 
+        (3, 1, '2018-3-24', 'big scratch, left side' ),(3, 1, '2018-3-24', 'wants oil change' ),
+        (4, 2, '2018-04-24', 'cigarette lighter broke'), (4, 2, '2018-04-24', 'gremlin in engine');
 
 --  Holds dates associated with particular bookings
 
@@ -189,3 +190,11 @@ SELECT clients.client_id, booking_dates.date, instructors.name as instructor_nam
      SET booking_note = $1
      WHERE booking_id =$2;
 
+--  Van issues reducer
+SELECT   vans.van_id, vans.color, van_issues.issue, van_issues.date_submitted, instructors.name, van_issues.resolved
+FROM bookings 
+JOIN booking_dates ON bookings.booking_id=booking_dates.booking_id
+JOIN vans ON booking_dates.van_id=vans.van_id
+JOIN van_issues ON vans.van_id=van_issues.van_id
+JOIN instructors ON van_issues.instructor_id=instructors.instructor_id
+WHERE bookings.booking_id=${booking_id}; 

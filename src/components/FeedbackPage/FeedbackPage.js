@@ -12,7 +12,11 @@ import TableRow from '@material-ui/core/TableRow';
 import Paper from '@material-ui/core/Paper';
 import './FeedbackPage.css'
 
-const styles = theme => ({
+//  Todos commented on far left
+//  ToDo:  CRITICAL fields are emptied on refresh, but still update
+//  to overwrite originals.  This is BAD!!
+
+const styles = theme => ({  //  Material-ui stuff
     textField: {
         marginLeft: 5,
         marginRight: 5,
@@ -22,27 +26,48 @@ const styles = theme => ({
 
 class FeedbackPage extends Component {
     state = {
-        booking_note: "",
-        call_out_information: "",
+        //  Set initial state to be for the booking note and call out information
+        //  associated with this program_instance's (from userpage/homepage/calendarpage) 
+        //  client and booking as specified in reduxState
+        booking_note: this.props.reduxState.bookingNoteReducer.booking_note,
+        call_out_information: this.props.reduxState.bookingNoteReducer.booking_note,
     }
 
     componentDidMount() {
-        console.log("didmount");
-        this.updateState();
-    }
 
-     updateState = () => {
-         console.log("entering updateState() in feedback page");
-         console.log("local state: ", this.state);
-         this.state.booking_note = this.props.reduxState.bookingNoteReducer.booking_note;
-         this.state.call_out_information = this.props.reduxState.calloutInformationReducer.call_out_information;
-}
+    }  //  End componentDidMount
 
-    handleNameChange = event => {
+//  ****  TRYING TO DEAL WITH NOTE AND INFO FIELDS EMPTYING ON REFRESH  ****
+    // componentDidMount() {
+    //     console.log("didmount Feedback page");
+    //     console.log(this.props.reduxState.bookingNoteReducer);
+    //     if (this.props.reduxState.bookingNoteReducer=={}){
+    //         this.props.dispatch({ type: 'FETCH_BOOKING_NOTE', id: this.state.booking_id });
+    //         this.props.dispatch({ type: 'FETCH_CALL_OUT_INFORMATION', id: this.state.client_id });
+    //     }
+    // }
+
+//      updateState = () => {
+//          console.log("entering updateState() in feedback page");
+//          console.log("local state: ", this.state);
+//          let booking_note = this.props.reduxState.bookingNoteReducer.booking_note;
+//          let call_out_information = this.props.reduxState.calloutInformationReducer.call_out_information;
+//          console.log("booking_note: ", booking_note);
+//          console.log("call_out_information: ", call_out_information);
+//          this.setState({
+//             booking_note: booking_note,
+//             call_out_information: call_out_information,
+//          });
+//          console.log("local state: ", this.state);
+//         //  this.state.booking_note = this.props.reduxState.bookingNoteReducer.booking_note;
+//         //  this.state.call_out_information = this.props.reduxState.calloutInformationReducer.call_out_information;
+// }
+
+// Problem here as state should update to hold values on mount
+    handleNameChange = event => {  //  text fields held in state to be submitted later
         this.setState({
             [event.target.name]: event.target.value,
         });
-        console.log("local state: ", this.state);
     }
 
     noteUpdateReducer = event => {
@@ -67,47 +92,51 @@ class FeedbackPage extends Component {
     render() {
         const { classes } = this.props;
         return (
-            <div id="bigdiv">
-                <div className="smalldivs">
-                    <div>
-                        <TextField
-                            name="call_out_information"
-                            style={{ width: 400 }}
-                            id="filled-multiline-static"
-                            label="Click 'UPDATE' to save changes"
-                            multiline
-                            rows="20"
-                            defaultValue={this.props.reduxState.calloutInformationReducer.call_out_information}
-                            className={classes.textField}
-                            margin="normal"
-                            variant="filled"
-                            onChange={this.handleNameChange}
-                        />
+            <div>
+                <div id="bigdiv">
+                    <div className="smalldivs">
+                        <div>
+                            <TextField
+                                name="call_out_information"
+                                style={{ width: 400 }}
+                                id="filled-multiline-static"
+                                label="Click 'UPDATE' to save changes for this client"
+                                multiline
+                                rows="20"
+                                defaultValue={this.props.reduxState.calloutInformationReducer.call_out_information}
+                                className={classes.textField}
+                                margin="normal"
+                                variant="filled"
+                                onChange={this.handleNameChange}
+                            />
+                        </div>
+                        <div>
+                            <button onClick={this.informationUpdateReducer}>UPDATE</button>
+                        </div>
                     </div>
-                    <div>
-                    <button onClick={this.informationUpdateReducer}>UPDATE</button>
+                    <div className="smalldivs">
+                        <div>
+                            <TextField
+                                name="booking_note"
+                                style={{ width: 400 }}
+                                id="filled-multiline-static"
+                                label="Click 'UPDATE' to save changes to the booking note"
+                                multiline
+                                rows="20"
+                                defaultValue={this.props.reduxState.bookingNoteReducer.booking_note}
+                                className={classes.textField}
+                                margin="normal"
+                                variant="filled"
+                                onChange={this.handleNameChange}
+                            /></div>
+                        <div>
+                            <button onClick={this.noteUpdateReducer}>UPDATE</button>
+                        </div>
                     </div>
+                    {/* End of bigdiv below */}
+                </div >
+                {/* End of return below */}
             </div>
-            <div className="smalldivs">
-                    <div>
-                        <TextField
-                            name="booking_note"
-                            style={{ width: 400 }}
-                            id="filled-multiline-static"
-                            label="Click 'UPDATE' to save changes"
-                            multiline
-                            rows="20"
-                            defaultValue={this.props.reduxState.bookingNoteReducer.booking_note}
-                            className={classes.textField}
-                            margin="normal"
-                            variant="filled"
-                            onChange={this.handleNameChange}
-                        /></div>
-                    <div>
-                        <button onClick={this.noteUpdateReducer}>UPDATE</button>
-                    </div>
-                    </div>
-            </div >
         ) //  end return
     }  //  end render
 }  //  End component FeedbackPage

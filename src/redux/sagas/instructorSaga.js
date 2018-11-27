@@ -1,7 +1,9 @@
 import { takeLatest, call, put } from 'redux-saga/effects';
 import axios from 'axios';
 
-
+//  This function gets all the program_instances assigned to
+//  the logged-in instructor/user and sends them to the 
+//  instructorCalendarReducer
 function* fetchProgramming(action) {
     console.log("state in fetchProgramming: ")
     let userid= action.id;
@@ -15,6 +17,9 @@ function* fetchProgramming(action) {
    }
 }
 
+//  This function gets the single booking_note assigned to
+//  the booking associated with the provided booking_id and sends
+//  it to the bookingNoteReducer
 function* fetchBookingNote(action) {
     console.log("state in fetchBookingNote: ")
     let booking_id= action.id;
@@ -28,6 +33,9 @@ function* fetchBookingNote(action) {
    }
 }
 
+//  This function gets the single CalloutInformation string
+//  assigned to the client associated with the provied client_id 
+//  and sends it to the calloutInformationReducer
 function* fetchCalloutInformation(action) {
     console.log("state in fetchCalloutInformation: ")
     let client_id= action.id;
@@ -42,7 +50,8 @@ function* fetchCalloutInformation(action) {
 }
 
 
-
+//  Makes sure each function runs after the others have completed
+//  to prefent asynchronicity (generator function)
 function* instructorSaga() {
    yield takeLatest('FETCH_CALENDAR', fetchProgramming);
    yield takeLatest('FETCH_BOOKING_NOTE', fetchBookingNote);
