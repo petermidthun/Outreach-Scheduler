@@ -26,8 +26,9 @@ function* updateBookingNote(action) {
 }
 
 function* fetchVansIssues(action) {
-  console.log("in updateVansIssues")
+  console.log("entered fetchVansIssues function in feedbackSaga")
   let booking_id= action.booking_id;
+  console.log("booking id: ", booking_id)
   try {
     //  query server
     const response = yield call(axios.get, `/api/feedback/vansissues/${booking_id}`, action.payload);

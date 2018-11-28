@@ -12,7 +12,9 @@ import Paper from '@material-ui/core/Paper';
 import Checkbox from '@material-ui/core/Checkbox';
 import Tooltip from '@material-ui/core/Tooltip';
 
-//  Todos commented on far right
+//  Todos commented on far left
+//  Vans should be per date here in updateReducers and also in feedback page,
+//  so you get the vans and programs for the date of the program instance you click on in the table
 
 const styles = theme => ({
     root: {
@@ -25,10 +27,7 @@ const styles = theme => ({
 
 
 class UserPage extends Component {
-    state = {
-        client_id: 0,
-        booking_id: 0,
-    }
+
 
     //  Display projects when page loads
     componentDidMount() {
@@ -44,11 +43,10 @@ class UserPage extends Component {
       
     }
 
-    updateReducers = event => {
-        event.preventDefault();
-        console.log('running updateReducers in UserPage, bookingid: ', this.state.booking_id, ' clientid: ', this.state.client_id);
-        this.props.dispatch({ type: 'FETCH_BOOKING_NOTE', id: this.state.booking_id });
-        this.props.dispatch({ type: 'FETCH_CALL_OUT_INFORMATION', id: this.state.client_id });
+    updateReducers = (client_id, booking_id) => {
+        console.log('running updateReducers in UserPage, bookingid: ', booking_id, ' clientid: ', client_id);
+        this.props.dispatch({ type: 'FETCH_BOOKING_NOTE', id: booking_id });
+        this.props.dispatch({ type: 'FETCH_CALL_OUT_INFORMATION', id: client_id });
     }
 
     render() {
@@ -81,9 +79,10 @@ class UserPage extends Component {
                                 //     client_id: row.client_id,
                                 //     booking_id: row.booking_id,
                                 // });
-                                        this.state.client_id = row.client_id;
-                                        this.state.booking_id = row.booking_id;
-                
+                                        // console.log("mapping calendar, row.client.id", row.client.id)
+                                        // currentclient_id = row.client_id;
+                                        // currentbooking_id = row.booking_id;
+
 //  Todo: put below code in a function
                                 //  This code messily takes the array of all instances of when an instructor
                                 //  visited the client for this program instance, then filters duplicates
@@ -115,7 +114,7 @@ class UserPage extends Component {
                                         <TableCell><Checkbox color='blue' checked={row.callout} />
                                          {/* MouseUp does not work for the ref below as the specified reducers reset when the referenced page loads... */}
 {/* ToDo:  Better to do this by loading the component rather than navigating to the page address?*/}
-                                            <a href="http://localhost:3000/#/callout" onMouseDown={this.updateReducers}>
+                                            <a href="http://localhost:3000/#/callout" onMouseDown={() => this.updateReducers(row.client_id, row.booking_id)}>
                                                 Complete
                                         </a>
                                         </TableCell>
@@ -123,7 +122,7 @@ class UserPage extends Component {
                                         <TableCell><Checkbox disabled />
                                         {/* MouseUp does not work for the ref below as the specified reducers reset when the referenced page loads... */}
 {/* ToDo:  Better to do this by loading the component rather than navigating to the page address?*/}   
-                                        <a href="http://localhost:3000/#/feedback" onMouseDown={this.updateReducers}>  
+                                        <a href="http://localhost:3000/#/feedback" onMouseDown={() => this.updateReducers(row.client_id, row.booking_id)}>  
                                                 Provide
                                         </a>
                                         </TableCell>

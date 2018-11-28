@@ -80,7 +80,13 @@ CREATE TABLE "bookings" (
 );
 
 INSERT INTO "bookings" ("client_id", "booking_note", "tourorovernight") 
-VALUES (1, 'elec and eng 7am, 9am, 3/23, keesha, Happy Apple', TRUE), (2, 'lots o waters, 4/21+4/22+4/23, Ruiz and Jaquan, kittson', TRUE), (3, 'Eng, 3/11/17 german', FALSE), (3, 'Elec, 3/20/18 german', FALSE), (4, 'water, anthony, 2016', FALSE), (4, 'water, anthony, 2017', FALSE), (4, 'water, anthony, 2018', FALSE);
+VALUES (1, 'happy apple, booking 1, 3/23/17, keesha, elec and eng 7am, 9am, Red van', TRUE), 
+(2, 'booking 2, kittson, lots o waters, 4/21+4/22(green van Ruiz) 4/23 (yellow Jaquan), ', TRUE), 
+(3, 'booking 3, German Immerson, Eng, 3/11/17, keesha', FALSE), 
+(3, 'booking 4, German Immersion Elec, 3/20/18 Jaquan', FALSE), 
+(4, 'booking 5, St. Anthony, Water, 2/25/2016, Ruiz', FALSE), 
+(4, 'booking 6, St. Anthony, Water, 4/22/17, Keesha', FALSE), 
+(4, 'booking 7, St. Anthony, Water, 3/22/18, Jaquan', FALSE);
 
 
 CREATE TABLE "program_feedback" ( --  holds feedback submitted by instructors

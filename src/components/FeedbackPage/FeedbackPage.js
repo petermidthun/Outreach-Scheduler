@@ -44,7 +44,9 @@ class FeedbackPage extends Component {
     //  When we enter the feedback page, booking_id comes as part of 
     //  the bookingnotereducer that is updated to reflect what client/booking
     //  the feedback is associated with so we can use it to grab the booking_id
+    console.log("enterd getVanIssuesForBooking")
     let booking_id=this.props.reduxState.bookingNoteReducer.booking_id;
+    console.log("grabbing booking id from redux state: ", booking_id)
     this.props.dispatch({ type: 'FETCH_VANS_ISSUES', booking_id: booking_id });
     }
 
@@ -168,7 +170,7 @@ class FeedbackPage extends Component {
                             {vanArray.map(van => {
                                 return(
                         <TableRow> 
-                                <TableCell >{van.issue} {van.resolved}</TableCell>
+                                <TableCell >{van.issue} </TableCell>
                                 </TableRow>
                                 )})}
                                 van_id: 4, color: "Yellow", issue: "gremlin in engine", date_submitted: "2018-04-25T05:00:00.000Z", name: "Ruiz", resolved: false
@@ -177,9 +179,9 @@ class FeedbackPage extends Component {
                     
                    
                     </Paper>
-                    // INSERT BUTTONS HERE
-                    <button> Huh </button>
-                    <div><div></div>  </div>
+                    
+                    <textField style={{ width: 400 }}></textField><button> Add Issue </button>
+                    
                     </div>
                     )})}
                 

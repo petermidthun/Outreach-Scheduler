@@ -2,7 +2,7 @@
 //  Example state:  
 
 const vansIssuesReducer = (state = [], action) => {
-    console.log('VANS ISSUES REDUCER RUNNING')
+    console.log('Entered vansIssuesReducer')
     switch (action.type) {
         case 'SET_VANS_ISSUES_REDUCER':
             //  Need to split payload array up by van
@@ -26,6 +26,7 @@ const vansIssuesReducer = (state = [], action) => {
                     newArray.push(resultArray);
                 }
             }
+            console.log("leaving vansIssuesReducer")
             return newArray;
             
         case 'UNSET_CALLOUT_INFORMATION':
