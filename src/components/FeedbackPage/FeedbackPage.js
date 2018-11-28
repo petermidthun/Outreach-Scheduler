@@ -36,10 +36,20 @@ class FeedbackPage extends Component {
     }
 
     componentDidMount() {
-
+        this.getVanIssuesForThisBooking();
+    
     }  //  End componentDidMount
+    
+    getVanIssuesForThisBooking = () => { 
+    //  When we enter the feedback page, booking_id comes as part of 
+    //  the bookingnotereducer that is updated to reflect what client/booking
+    //  the feedback is associated with so we can use it to grab the booking_id
+    let booking_id=this.props.reduxState.bookingNoteReducer.booking_id;
+    this.props.dispatch({ type: 'FETCH_VANS_ISSUES', booking_id: booking_id });
+    }
 
-//  ****  TRYING TO DEAL WITH NOTE AND INFO FIELDS EMPTYING ON REFRESH  ****
+
+    //  ****  TRYING TO DEAL WITH NOTE AND INFO FIELDS EMPTYING ON REFRESH  ****
     // componentDidMount() {
     //     console.log("didmount Feedback page");
     //     console.log(this.props.reduxState.bookingNoteReducer);
@@ -141,10 +151,12 @@ class FeedbackPage extends Component {
                 <div className="bigdiv">
                 <div id="vandiv">
                 <Paper className={classes.root}>
+                {this.props.reduxState.vansIssuesReducer.map(vanarray => {
+                    return (
                     <Table className={classes.table} >
                         <TableHead>
                             <TableRow>
-                                <TableCell >Header</TableCell>
+                                <TableCell>{vanarray[0].color}</TableCell>
                                 </TableRow>
                         </TableHead>
                         <TableBody>
@@ -153,6 +165,7 @@ class FeedbackPage extends Component {
                                 </TableRow>
                         </TableBody>
                     </Table>
+                    )})}
                 </Paper>
                 </div>
                 </div>

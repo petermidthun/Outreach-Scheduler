@@ -46,4 +46,28 @@ router.put('/calloutinformation', (req, res) => {
         });
     });
 
+
+    router.get(`/vansissues/:id`, (req, res) => {
+      console.log("in get at /vansissues")
+      const booking_id = req.params.id;
+      const queryText = `SELECT DISTINCT  vans.van_id, vans.color, van_issues.issue, van_issues.date_submitted, instructors.name, van_issues.resolved
+      FROM bookings 
+      JOIN booking_dates ON bookings.booking_id=booking_dates.booking_id
+      JOIN vans ON booking_dates.van_id=vans.van_id
+      JOIN van_issues ON vans.van_id=van_issues.van_id
+      JOIN instructors ON van_issues.instructor_id=instructors.instructor_id
+      WHERE bookings.booking_id=${booking_id};`;
+      pool.query(queryText)
+  
+          .then((result) => {
+              console.log("result.rows: ", result.rows);
+              res.send(result.rows);
+          })
+          .catch((err) => {
+              console.log('Error completing calendar query', err);
+              res.sendStatus(500);
+          });
+  });
+  
+
 module.exports = router;

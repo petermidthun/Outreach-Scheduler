@@ -83,6 +83,7 @@ class UserPage extends Component {
                                 // });
                                         this.state.client_id = row.client_id;
                                         this.state.booking_id = row.booking_id;
+                
 //  Todo: put below code in a function
                                 //  This code messily takes the array of all instances of when an instructor
                                 //  visited the client for this program instance, then filters duplicates

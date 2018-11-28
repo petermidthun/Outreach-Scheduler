@@ -59,7 +59,7 @@ router.get(`/calloutinformation/:id`, (req, res) => {
 
         .then((result) => {
             //  console.log("result.rows: ", result.rows);
-            res.send(result.rows);
+            res.send(result.rows[0]);
         })
         .catch((err) => {
             console.log('Error completing calendar query', err);
@@ -78,7 +78,7 @@ router.get(`/bookingnote/:id`, (req, res) => {
 
         .then((result) => {
             //  console.log("result.rows: ", result.rows);
-            res.send(result.rows);
+            res.send(result.rows[0]);
         })
         .catch((err) => {
             console.log('Error completing calendar query', err);

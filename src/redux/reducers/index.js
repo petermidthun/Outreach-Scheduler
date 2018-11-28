@@ -6,6 +6,7 @@ import instructorCalendarReducer from './instructorCalendarReducer';
 import clientHistoryReducer from './clientHistoryReducer';
 import calloutInformationReducer from './calloutInformationReducer';
 import bookingNoteReducer from './bookingNoteReducer';
+import vansIssuesReducer from './vansIssuesReducer'
 
 
 // rootReducer is the primary reducer for our entire project
@@ -22,6 +23,7 @@ const rootReducer = combineReducers({
   clientHistoryReducer,     //  history of instructors that have visited a client
   calloutInformationReducer,
   bookingNoteReducer,
+  vansIssuesReducer,
 });
 
 export default rootReducer;

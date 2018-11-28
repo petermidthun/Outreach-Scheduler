@@ -191,10 +191,10 @@ SELECT clients.client_id, booking_dates.date, instructors.name as instructor_nam
      WHERE booking_id =$2;
 
 --  Van issues reducer
-SELECT   vans.van_id, vans.color, van_issues.issue, van_issues.date_submitted, instructors.name, van_issues.resolved
-FROM bookings 
-JOIN booking_dates ON bookings.booking_id=booking_dates.booking_id
-JOIN vans ON booking_dates.van_id=vans.van_id
-JOIN van_issues ON vans.van_id=van_issues.van_id
-JOIN instructors ON van_issues.instructor_id=instructors.instructor_id
-WHERE bookings.booking_id=${booking_id}; 
+SELECT DISTINCT  vans.van_id, vans.color, van_issues.issue, van_issues.date_submitted, instructors.name, van_issues.resolved
+      FROM bookings 
+      JOIN booking_dates ON bookings.booking_id=booking_dates.booking_id
+      JOIN vans ON booking_dates.van_id=vans.van_id
+      JOIN van_issues ON vans.van_id=van_issues.van_id
+      JOIN instructors ON van_issues.instructor_id=instructors.instructor_id
+      WHERE bookings.booking_id=${booking_id};
