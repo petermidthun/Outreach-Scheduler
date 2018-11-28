@@ -150,23 +150,39 @@ class FeedbackPage extends Component {
                 <div><p></p></div>
                 <div className="bigdiv">
                 <div id="vandiv">
-                <Paper className={classes.root}>
-                {this.props.reduxState.vansIssuesReducer.map(vanarray => {
-                    return (
+                
+                {this.props.reduxState.vansIssuesReducer.map(vanArray => {
+                 
+                 return (
+                    <div className="bigdiv">
+                    <Paper className={classes.root}>
+                        
+
                     <Table className={classes.table} >
                         <TableHead>
                             <TableRow>
-                                <TableCell>{vanarray[0].color}</TableCell>
+                                <TableCell>{vanArray[0].color} Van Issues</TableCell>
                                 </TableRow>
                         </TableHead>
                         <TableBody>
-                        <TableRow>
-                                <TableCell >Body</TableCell>
+                            {vanArray.map(van => {
+                                return(
+                        <TableRow> 
+                                <TableCell >{van.issue} {van.resolved}</TableCell>
                                 </TableRow>
+                                )})}
+                                van_id: 4, color: "Yellow", issue: "gremlin in engine", date_submitted: "2018-04-25T05:00:00.000Z", name: "Ruiz", resolved: false
                         </TableBody>
                     </Table>
+                    
+                   
+                    </Paper>
+                    // INSERT BUTTONS HERE
+                    <button> Huh </button>
+                    <div><div></div>  </div>
+                    </div>
                     )})}
-                </Paper>
+                
                 </div>
                 </div>
                 {/* End of return below */}
