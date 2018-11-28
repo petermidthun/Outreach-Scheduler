@@ -171,14 +171,14 @@ class FeedbackPage extends Component {
                             {vanArray.map(van => {
                                 return(
                         <TableRow> 
-                                <TableCell >{van.issue} <button onClick={this.vanIssueUpdateReducer}>UPDATE</button></TableCell>
+                                <TableCell >{van.issue} <button onClick={this.vanIssueUpdateReducer}>RESOLVE</button></TableCell>
                                 </TableRow>
                                 )})}
                                 {/* van_id: 4, color: "Yellow", issue: "gremlin in engine", date_submitted: "2018-04-25T05:00:00.000Z", name: "Ruiz", resolved: false */}
                                 {/* <input>Input field</input> */}
-                                <input type="text" name="company" form="my_form" />
+                                {/* <input type="text" name="company" form="my_form" />
                                 <button onClick={this.noteUpdateReducer}>SUBMIT NEW ISSUE</button>
-                                
+                                 */}
                         </TableBody>
 
                     </Table>
@@ -186,11 +186,12 @@ class FeedbackPage extends Component {
                    
                     </Paper>
                     {/* <p style="margin-bottom:3cm;" ></p> */}
-                    <input type="text" name="company" form="my_form" />
+                    <div className="vanIssueInputDiv">
+                    <input type="text"  />
                                 <button onClick={this.noteUpdateReducer}>SUBMIT NEW ISSUE</button>
-                                
+                                </div>         
                     <p></p>
-                    {/* <p style="margin-bottom:6cm;" ></p> */}
+                    
                     </div>
                     )})}
                 
