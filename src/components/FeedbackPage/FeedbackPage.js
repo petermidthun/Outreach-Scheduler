@@ -10,6 +10,7 @@ import TableCell from '@material-ui/core/TableCell';
 import TableHead from '@material-ui/core/TableHead';
 import TableRow from '@material-ui/core/TableRow';
 import Paper from '@material-ui/core/Paper';
+import Button from '@material-ui/core/Button';
 import './FeedbackPage.css'
 
 //  Todos commented on far left
@@ -114,7 +115,7 @@ class FeedbackPage extends Component {
                                 name="call_out_information"
                                 style={{ width: 400 }}
                                 id="filled-multiline-static"
-                                label="Click 'UPDATE' to save changes for this client"
+                                label="Call out information for this client:"
                                 multiline
                                 rows="20"
                                 defaultValue={this.props.reduxState.calloutInformationReducer.call_out_information}
@@ -134,7 +135,7 @@ class FeedbackPage extends Component {
                                 name="booking_note"
                                 style={{ width: 400 }}
                                 id="filled-multiline-static"
-                                label="Click 'UPDATE' to save changes to the booking note"
+                                label="Booking information for this booking:"
                                 multiline
                                 rows="20"
                                 defaultValue={this.props.reduxState.bookingNoteReducer.booking_note}
@@ -144,7 +145,7 @@ class FeedbackPage extends Component {
                                 onChange={this.handleNameChange}
                             /></div>
                         <div>
-                            <button onClick={this.noteUpdateReducer}>UPDATE</button>
+                        <button onClick={this.noteUpdateReducer}>UPDATE</button>
                         </div>
                     </div>
                     {/* End of bigdiv below */}
@@ -160,7 +161,7 @@ class FeedbackPage extends Component {
                     <Paper className={classes.root}>
                         
 
-                    <Table className={classes.table} >
+                    <Table style={{backgroundColor: 'rgba(0, 0, 0, 0.09)' }} className={classes.table} >
                         <TableHead>
                             <TableRow>
                                 <TableCell>{vanArray[0].color} Van Issues</TableCell>
@@ -170,18 +171,26 @@ class FeedbackPage extends Component {
                             {vanArray.map(van => {
                                 return(
                         <TableRow> 
-                                <TableCell >{van.issue} </TableCell>
+                                <TableCell >{van.issue} <button onClick={this.vanIssueUpdateReducer}>UPDATE</button></TableCell>
                                 </TableRow>
                                 )})}
-                                van_id: 4, color: "Yellow", issue: "gremlin in engine", date_submitted: "2018-04-25T05:00:00.000Z", name: "Ruiz", resolved: false
+                                {/* van_id: 4, color: "Yellow", issue: "gremlin in engine", date_submitted: "2018-04-25T05:00:00.000Z", name: "Ruiz", resolved: false */}
+                                {/* <input>Input field</input> */}
+                                <input type="text" name="company" form="my_form" />
+                                <button onClick={this.noteUpdateReducer}>SUBMIT NEW ISSUE</button>
+                                
                         </TableBody>
+
                     </Table>
                     
                    
                     </Paper>
-                    
-                    <textField style={{ width: 400 }}></textField><button> Add Issue </button>
-                    
+                    {/* <p style="margin-bottom:3cm;" ></p> */}
+                    <input type="text" name="company" form="my_form" />
+                                <button onClick={this.noteUpdateReducer}>SUBMIT NEW ISSUE</button>
+                                
+                    <p></p>
+                    {/* <p style="margin-bottom:6cm;" ></p> */}
                     </div>
                     )})}
                 
