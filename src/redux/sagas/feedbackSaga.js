@@ -1,5 +1,6 @@
 import { takeLatest, call, put } from 'redux-saga/effects';
 import axios from 'axios';
+import { connect } from 'react-redux';
 
 function* updateCalloutInformation(action) {
     console.log("in updateCalloutInformation: ")
@@ -55,6 +56,19 @@ function* fetchProgramFeedback(action) {
   }
 }
 
+function* instructorAddVanIssue(action) {
+  console.log('in instructorAddVanIssue, action.payload: ', action.payload);
+  try {
+
+      yield call(axios.post, '/api/feedback/instructoraddvanissue', action.payload);
+      yield put({ type: 'FETCH_VANS_ISSUES', booking_id: action.payload.booking_id });
+  }
+  catch (error) {
+      console.log('error, instructorAddVanIssue failed in feedbackSaga', error);
+      
+  }
+}
+
 //  Makes sure each function runs after the others have completed
 //  to prefent asynchronicity (generator function)
 function* feedbackSaga() {
@@ -62,6 +76,9 @@ function* feedbackSaga() {
    yield takeLatest('UPDATE_BOOKING_NOTE', updateBookingNote);
    yield takeLatest('FETCH_VANS_ISSUES', fetchVansIssues);
    yield takeLatest('FETCH_PROGRAM_FEEDBACK', fetchProgramFeedback);
+   yield takeLatest('INSTRUCTOR_ADD_VAN_ISSUE', instructorAddVanIssue);
  }
+
+ //  Make reduxstate where it is available here as reduxState
 
 export default feedbackSaga;

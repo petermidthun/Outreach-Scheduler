@@ -120,13 +120,23 @@ class FeedbackPage extends Component {
         };
         this.props.dispatch({ type: 'UPDATE_CALLOUT_INFORMATION', payload: object})
     }
-    vanIssueUpdateReducer = (van_id) => {
+    addVanIssue = (van_id) => {
+        //  Adds a van issue to the database for currently
+        //  logged in instructor 
+//TODO use momentjs to get time issue was added
         console.log("running van issue update reducer");
         console.log("van_id: ", van_id);
         let statePropertyForVan = "this.state.issueForVan"+van_id;
         console.log("statePropertyForVan: ", statePropertyForVan);
         console.log("eval(statePropertyForVan): ", eval(statePropertyForVan));
-        //  this.props.dispatch()
+        let object = {  //  object to sent to post request
+            van_id:  van_id,
+            issue: eval(statePropertyForVan),
+            date: "2000-01-01",
+            instructor_id: 1,  //  Need to get from instructorCalendarReducer
+            booking_id: this.props.reduxState.bookingNoteReducer.booking_id,
+        }
+        this.props.dispatch({ type: 'INSTRUCTOR_ADD_VAN_ISSUE', payload: object})
     }
  
     render() {
@@ -222,7 +232,7 @@ class FeedbackPage extends Component {
                                     <div className="vanIssueInputDiv">
 
                                         <input name={"issueForVan" + vanArray[0].van_id} className="vanIssueInputField" type="text" onChange={this.handleNameChange}/>
-                                        <button onClick={() => this.vanIssueUpdateReducer(vanArray[0].van_id)} className="vanIssueInputButton">SUBMIT  </button>
+                                        <button onClick={() => this.addVanIssue(vanArray[0].van_id)} className="vanIssueInputButton">SUBMIT  </button>
 
                                     </div>
                                     <p></p>

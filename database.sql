@@ -106,7 +106,6 @@ CREATE TABLE "van_issues" (     --  holds van issues submitted by instrutors
     "issue_id" SERIAL PRIMARY KEY,
     "van_id" INT REFERENCES "vans",
     "instructor_id" INT REFERENCES "instructors",
-
     "date_submitted" DATE,
     "issue" VARCHAR(255),
     "resolved" Boolean DEFAULT FALSE
