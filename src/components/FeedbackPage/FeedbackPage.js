@@ -34,6 +34,13 @@ class FeedbackPage extends Component {
         //  client and booking as specified in reduxState
         booking_note: this.props.reduxState.bookingNoteReducer.booking_note,
         call_out_information: this.props.reduxState.bookingNoteReducer.booking_note,
+
+        // MAKES LITTLE SENSE TO STORE INPUT FIELDS HERE FORE
+        // ITERATIONS OF PROGRAMS/VANS AS EACH ITERATION WOULD
+        // NEED IT'S OWN STATE AND SHOULD BE A COMPONENT...
+        // WAIT, WILL setSTATE CREATE A NEW ONE PER ID IF
+        // WE INCLUDE ID IN EVENT.TARGET.NAME?
+
     }
 
     componentDidMount() {
@@ -88,9 +95,11 @@ class FeedbackPage extends Component {
 // }
 
     handleNameChange = event => {  //  text fields held in state to be submitted to reducer later
+        console.log('begin handleNameChange');
         this.setState({
             [event.target.name]: event.target.value,
         });
+        console.log("handleNameChange complete, state: ", this.state);
     }
 
     noteUpdateReducer = event => {
@@ -110,6 +119,14 @@ class FeedbackPage extends Component {
             client_id: this.props.reduxState.calloutInformationReducer.client_id,
         };
         this.props.dispatch({ type: 'UPDATE_CALLOUT_INFORMATION', payload: object})
+    }
+    vanIssueUpdateReducer = (van_id) => {
+        console.log("running van issue update reducer");
+        console.log("van_id: ", van_id);
+        let statePropertyForVan = "this.state.issueForVan"+van_id;
+        console.log("statePropertyForVan: ", statePropertyForVan);
+        console.log("eval(statePropertyForVan): ", eval(statePropertyForVan));
+        //  this.props.dispatch()
     }
  
     render() {
@@ -137,6 +154,9 @@ class FeedbackPage extends Component {
                             <button onClick={this.informationUpdateReducer}>UPDATE</button>
                         </div>
                     </div>
+                    {/* ***************************************
+                    ****  END OF CALLOUT INFO SECTION  ****
+                    *************************************** */}
                     <div className="smalldivs">
                         <div>
                             <TextField
@@ -156,8 +176,12 @@ class FeedbackPage extends Component {
                         <button onClick={this.noteUpdateReducer}>UPDATE</button>
                         </div>
                     </div>
+                    {/* *******************************************
+                    *****   END OF BOOKING NOTE SECTION   *****
+                    ******************************************* */}
                     {/* End of bigdiv below */}
                 </div >
+                
                 <div><p></p></div>
                 <div className="bigdiv">
                     <div id="vandiv">
@@ -196,8 +220,9 @@ class FeedbackPage extends Component {
                                     </Paper>
                                     {/* <p style="margin-bottom:3cm;" ></p> */}
                                     <div className="vanIssueInputDiv">
-                                        <input className="vanIssueInputField" type="text" />
-                                        <button className="vanIssueInputButton">SUBMIT  </button>
+
+                                        <input name={"issueForVan" + vanArray[0].van_id} className="vanIssueInputField" type="text" onChange={this.handleNameChange}/>
+                                        <button onClick={() => this.vanIssueUpdateReducer(vanArray[0].van_id)} className="vanIssueInputButton">SUBMIT  </button>
 
                                     </div>
                                     <p></p>
