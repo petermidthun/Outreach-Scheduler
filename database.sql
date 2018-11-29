@@ -93,10 +93,10 @@ CREATE TABLE "program_feedback" ( --  holds feedback submitted by instructors
     "feedback_id" SERIAL PRIMARY KEY,
     "program_id" INT REFERENCES "programs",
     "instructor_id" INT REFERENCES "instructors",
-    "issue" VARCHAR(255)
+    "feedback" VARCHAR(255)
 );
 
-INSERT INTO "program_feedback" ("program_id", "instructor_id", "issue") 
+INSERT INTO "program_feedback" ("program_id", "instructor_id", "feedback") 
 VALUES (1, 1, 'Giant test tube broke'), (1, 3, 'Out of flame paper' ), 
         (2, 2, 'materials wet' ), (2, 1, 'part 3 demo falls flat' ),
         (3, 3, 'bird train is awesome!' ), (3, 2, 'dont overheat eggs'),
@@ -204,3 +204,13 @@ SELECT DISTINCT  vans.van_id, vans.color, van_issues.issue, van_issues.date_subm
       JOIN van_issues ON vans.van_id=van_issues.van_id
       JOIN instructors ON van_issues.instructor_id=instructors.instructor_id
       WHERE bookings.booking_id=${booking_id};
+
+--  Program feedback reducer
+      SELECT DISTINCT  programs.program_id, programs.name, program_feedback.feedback, instructors.name as instructor_name
+    FROM bookings 
+    JOIN booking_dates ON bookings.booking_id=booking_dates.booking_id
+    JOIN program_instances ON booking_dates.booking_date_id=program_instances.booking_date_id
+    JOIN programs ON program_instances.program_id=programs.program_id
+    JOIN program_feedback ON programs.program_id=program_feedback.program_id
+    JOIN instructors ON program_feedback.instructor_id=instructors.instructor_id
+    WHERE bookings.booking_id=${booking_id};

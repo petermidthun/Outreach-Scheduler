@@ -1,32 +1,34 @@
-//  Stores van issues for all vans associated with a booking
+
+
+//  Stores program feedback for all vans associated with a booking
 //  Example state:  
 
-const vansIssuesReducer = (state = [], action) => {
-    console.log('Entered vansIssuesReducer')
+const programFeedbackReducer = (state = [], action) => {
+    console.log('Entered programFeedbackReducer')
     switch (action.type) {
-        case 'SET_VANS_ISSUES_REDUCER':
-            //  Need to split payload array up by van
+        case 'SET_PROGRAM_FEEDBACK_REDUCER':
+            //  Need to split payload array up by program
             let oldArray = action.payload.data;
             
             //  get highest van_id number
             let highestValue = 0;
-            for (let van of oldArray) {
-                if (van.van_id > highestValue) {
-                    highestValue = van.van_id;
+            for (let program of oldArray) {
+                if (program.program_id > highestValue) {
+                    highestValue = program.program_id;
                 }
             }
             //  Make a new array of arrays by filtering by 
-            //  van_id and pushing the resultant array
+            //  program_id and pushing the resultant array
             //  to a new array if the resultant array
             //  is not empty.  New array becomes state
             let newArray = [];
             for (let i = 0; i <= highestValue; i++) {
-                let resultArray = oldArray.filter(van => van.van_id === i)
+                let resultArray = oldArray.filter(program => program.program_id === i)
                 if (resultArray.length !== 0) {
                     newArray.push(resultArray);
                 }
             }
-            console.log("leaving vansIssuesReducer")
+            console.log("leaving programFeedbackReducer")
             return newArray;
             
         case 'UNSET_CALLOUT_INFORMATION':
@@ -37,4 +39,4 @@ const vansIssuesReducer = (state = [], action) => {
 };
   
 
-  export default vansIssuesReducer;
+  export default programFeedbackReducer;

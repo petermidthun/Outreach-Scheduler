@@ -38,17 +38,26 @@ class FeedbackPage extends Component {
 
     componentDidMount() {
         this.getVanIssuesForThisBooking();
-    
+        console.log("get van issues is complete in componentdidmount")
+        this.getProgramFeedbackForThisBooking();
+        console.log("get program feedback is complete in componentdidmount")
     }  //  End componentDidMount
     
     getVanIssuesForThisBooking = () => { 
     //  When we enter the feedback page, booking_id comes as part of 
     //  the bookingnotereducer that is updated to reflect what client/booking
     //  the feedback is associated with so we can use it to grab the booking_id
-    console.log("enterd getVanIssuesForBooking")
+    console.log("entered getVanIssuesForBooking")
     let booking_id=this.props.reduxState.bookingNoteReducer.booking_id;
-    console.log("grabbing booking id from redux state: ", booking_id)
+    console.log("grabbing booking id from redux state: ", booking_id);
     this.props.dispatch({ type: 'FETCH_VANS_ISSUES', booking_id: booking_id });
+    }
+
+    getProgramFeedbackForThisBooking = () => { 
+        console.log("entered getProgramFeedbackForThisBooking")
+        let booking_id=this.props.reduxState.bookingNoteReducer.booking_id;
+        console.log("grabbing booking id from redux state: ", booking_id);
+        this.props.dispatch({ type: 'FETCH_PROGRAM_FEEDBACK', booking_id: booking_id });
     }
 
 
@@ -78,8 +87,7 @@ class FeedbackPage extends Component {
 //         //  this.state.call_out_information = this.props.reduxState.calloutInformationReducer.call_out_information;
 // }
 
-// Problem here as state should update to hold values on mount
-    handleNameChange = event => {  //  text fields held in state to be submitted later
+    handleNameChange = event => {  //  text fields held in state to be submitted to reducer later
         this.setState({
             [event.target.name]: event.target.value,
         });
@@ -152,51 +160,94 @@ class FeedbackPage extends Component {
                 </div >
                 <div><p></p></div>
                 <div className="bigdiv">
-                <div id="vandiv">
-                
-                {this.props.reduxState.vansIssuesReducer.map(vanArray => {
-                 
-                 return (
-                    <div className="bigdiv">
-                    <Paper className={classes.root}>
-                        
+                    <div id="vandiv">
 
-                    <Table style={{backgroundColor: 'rgba(0, 0, 0, 0.09)' }} className={classes.table} >
-                        <TableHead>
-                            <TableRow>
-                                <TableCell>{vanArray[0].color} Van Issues</TableCell>
-                                </TableRow>
-                        </TableHead>
-                        <TableBody>
-                            {vanArray.map(van => {
-                                return(
-                        <TableRow> 
-                                <TableCell >{van.issue} <button style={{float: "right"}} >RESOLVE</button></TableCell>
-                                </TableRow>
-                                )})}
-                                {/* van_id: 4, color: "Yellow", issue: "gremlin in engine", date_submitted: "2018-04-25T05:00:00.000Z", name: "Ruiz", resolved: false */}
-                                {/* <input>Input field</input> */}
-                                {/* <input type="text" name="company" form="my_form" />
+                        {this.props.reduxState.vansIssuesReducer.map(vanArray => {
+
+                            return (
+                                <div className="vandiv">
+                                    <Paper className={classes.root}>
+
+
+                                        <Table style={{ backgroundColor: 'rgba(0, 0, 0, 0.09)' }} className={classes.table} >
+                                            <TableHead>
+                                                <TableRow>
+                                                    <TableCell>{vanArray[0].color} Van Issues</TableCell>
+                                                </TableRow>
+                                            </TableHead>
+                                            <TableBody>
+                                                {vanArray.map(van => {
+                                                    return (
+                                                        <TableRow>
+                                                            <TableCell >{van.issue} <button style={{ float: "right" }} >RESOLVE</button></TableCell>
+                                                        </TableRow>
+                                                    )
+                                                })}
+                                                {/* van_id: 4, color: "Yellow", issue: "gremlin in engine", date_submitted: "2018-04-25T05:00:00.000Z", name: "Ruiz", resolved: false */}
+                                                {/* <input>Input field</input> */}
+                                                {/* <input type="text" name="company" form="my_form" />
                                 <button onClick={this.noteUpdateReducer}>SUBMIT NEW ISSUE</button>
                                  */}
-                        </TableBody>
+                                            </TableBody>
 
-                    </Table>
-                    
-                   
-                    </Paper>
-                    {/* <p style="margin-bottom:3cm;" ></p> */}
-                    <div className="vanIssueInput">
-                    <input type="text"  />
-                                <button >SUBMIT NEW ISSUE</button>
-                                </div>         
-                    <p></p>
-                    {/* <p style="margin-bottom:6cm;" ></p> */}
+                                        </Table>
+
+
+                                    </Paper>
+                                    {/* <p style="margin-bottom:3cm;" ></p> */}
+                                    <div className="vanIssueInputDiv">
+                                        <input className="vanIssueInputField" type="text" />
+                                        <button className="vanIssueInputButton">SUBMIT  </button>
+
+                                    </div>
+                                    <p></p>
+                                    {/* <p style="margin-bottom:6cm;" ></p> */}
+                                </div>
+                            )
+                        })}
+
                     </div>
-                    )})}
-                
                 </div>
+                {/* ******************************************************
+                    *********         END OF VAN ISSUES        ***********
+                    ****************************************************** */}
+                <div className="bigdiv">
+                    <div id="vandiv">
+                        {this.props.reduxState.programFeedbackReducer.map(programArray => {
+                            return (
+                                <div className="vandiv">
+                                    <Paper className={classes.root}>
+                                        <Table style={{ backgroundColor: 'rgba(0, 0, 0, 0.09)' }} className={classes.table} >
+                                            <TableHead>
+                                                <TableRow>
+                                                    <TableCell>{programArray[0].name} Program Feedback</TableCell>
+                                                </TableRow>
+                                            </TableHead>
+                                            <TableBody>
+                                                {programArray.map(program => {
+                                                    return (
+                                                        <TableRow>
+                                                            <TableCell >{program.feedback} <button style={{ float: "right" }} >RESOLVE</button></TableCell>
+                                                        </TableRow>
+                                                    )
+                                                })}
+                                            </TableBody>
+                                        </Table>
+                                    </Paper>
+                                    <div className="vanIssueInputDiv">
+                                        <input className="vanIssueInputField" type="text" />
+                                        <button className="vanIssueInputButton">SUBMIT  </button>
+                                    </div>
+                                    <p></p>
+                                </div>
+                            )
+                        })}
+                    </div>
                 </div>
+                {/* *********************************
+                    ***  END OF PROGRAM FEEDBACK  *** 
+                    **********************************/}
+
                 {/* End of return below */}
             </div>
         ) //  end return

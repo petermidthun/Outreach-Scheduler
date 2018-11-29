@@ -15,7 +15,8 @@
     }
 
 #vandiv {
-    width: 800px;
+    /* width: 800px; */
+    width: 90%;
     display: inline-block;
     border-radius: 10px;
     
@@ -23,17 +24,19 @@
 
 .vanIssueInputDiv{
     width: 100%;
-    float: left;
-    background-color: rgba(0, 0, 0, 0.5);
+    /* float: left; */
+    /* background-color: rgba(0, 0, 0, 0.5); */
     /* rgba(0, 0, 0, 0.09); */
+    /* display: flex;
+    align-items: center; */
 }
 
 .vanIssueInputField {
     width: 200px;
-    float: left;
+    /* float: right; */
 }
 
 .vanIssueInputButton {
-
-    float: right;
-}
+   
+    /* float: right;*/
+} 

@@ -40,12 +40,28 @@ function* fetchVansIssues(action) {
   }
 }
 
+function* fetchProgramFeedback(action) {
+  console.log("entered fetchProgramFeedback function in feedbackSaga")
+  let booking_id= action.booking_id;
+  console.log("booking id: ", booking_id)
+  try {
+    //  query server
+    const response = yield call(axios.get, `/api/feedback/programfeedback/${booking_id}`, action.payload);
+    //  Set reducer
+    yield put({ type: 'SET_PROGRAM_FEEDBACK_REDUCER', payload: response });
+  }
+  catch (error) {
+    console.log('error with vanissues get request', error);
+  }
+}
+
 //  Makes sure each function runs after the others have completed
 //  to prefent asynchronicity (generator function)
 function* feedbackSaga() {
    yield takeLatest('UPDATE_CALLOUT_INFORMATION', updateCalloutInformation);
    yield takeLatest('UPDATE_BOOKING_NOTE', updateBookingNote);
    yield takeLatest('FETCH_VANS_ISSUES', fetchVansIssues);
+   yield takeLatest('FETCH_PROGRAM_FEEDBACK', fetchProgramFeedback);
  }
 
 export default feedbackSaga;
