@@ -115,4 +115,24 @@ router.post('/instructoraddvanissue', (req, res) => {
 
 
 
+router.post('/instructoraddProgramFeedback', (req, res) => {
+  const newProgramFeedbackObject = req.body;
+  console.log('newProgramFeedbackObject being sent to server: ', newProgramFeedbackObject);
+  const queryText = `INSERT INTO "program_feedback" ("instructor_id", "program_id", "feedback")
+  VALUES ($1, $2, $3)`;
+  const queryValues = [
+    newProgramFeedbackObject.instructor_id,
+    newProgramFeedbackObject.program_id,
+    newProgramFeedbackObject.feedback,
+  ];
+  pool.query(queryText, queryValues)
+    .then(() => { 
+        res.sendStatus(201); 
+      })
+    .catch((err) => {
+      console.log('Error in post to portfolio database query', err);
+      res.sendStatus(500);
+    });
+});
+
 module.exports = router;

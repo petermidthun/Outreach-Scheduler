@@ -110,15 +110,15 @@ class UserPage extends Component {
                                         <TableCell >{row.date.substring(0, 10)}</TableCell>
                                         <TableCell>{row.time}</TableCell>
                                         <TableCell>{row.van}</TableCell>
-                                        <TableCell><Checkbox color='blue' checked={row.tourorovernight} /></TableCell>
-                                        <TableCell><Checkbox color='blue' checked={row.callout} />
+                                        <TableCell><Checkbox color='default' checked={row.tourorovernight} /></TableCell>
+                                        <TableCell><Checkbox color='default' checked={row.callout} />
                                          {/* MouseUp does not work for the ref below as the specified reducers reset when the referenced page loads... */}
 {/* ToDo:  Better to do this by loading the component rather than navigating to the page address?*/}
                                             <a href="http://localhost:3000/#/callout" onMouseDown={() => this.updateReducers(row.client_id, row.booking_id)}>
                                                 Complete
                                         </a>
                                         </TableCell>
-                                        <TableCell><Checkbox color='blue' checked={row.thankyou} /></TableCell>
+                                        <TableCell><Checkbox color='default' checked={row.thankyou} /></TableCell>
                                         <TableCell><Checkbox disabled />
                                         {/* MouseUp does not work for the ref below as the specified reducers reset when the referenced page loads... */}
 {/* ToDo:  Better to do this by loading the component rather than navigating to the page address?*/}   

@@ -69,6 +69,19 @@ function* instructorAddVanIssue(action) {
   }
 }
 
+function* instructorAddProgramFeedback(action) {
+  console.log('in instructorAddProgramFeedback, action.payload: ', action.payload);
+  try {
+
+      yield call(axios.post, '/api/feedback/instructoraddProgramFeedback', action.payload);
+      yield put({ type: 'FETCH_PROGRAM_FEEDBACK', booking_id: action.payload.booking_id });
+  }
+  catch (error) {
+      console.log('error, instructorAddProgramFeedback failed in feedbackSaga', error);
+      
+  }
+}
+
 //  Makes sure each function runs after the others have completed
 //  to prefent asynchronicity (generator function)
 function* feedbackSaga() {
@@ -77,8 +90,8 @@ function* feedbackSaga() {
    yield takeLatest('FETCH_VANS_ISSUES', fetchVansIssues);
    yield takeLatest('FETCH_PROGRAM_FEEDBACK', fetchProgramFeedback);
    yield takeLatest('INSTRUCTOR_ADD_VAN_ISSUE', instructorAddVanIssue);
+   yield takeLatest('INSTRUCTOR_ADD_PROGRAM_FEEDBACK', instructorAddProgramFeedback);
  }
 
- //  Make reduxstate where it is available here as reduxState
 
 export default feedbackSaga;

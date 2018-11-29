@@ -70,6 +70,7 @@ class FeedbackPage extends Component {
 
     //  ****  TRYING TO DEAL WITH NOTE AND INFO FIELDS EMPTYING ON REFRESH  ****
     // componentDidMount() {
+    //     DISPATCH A FETCH HERE?
     //     console.log("didmount Feedback page");
     //     console.log(this.props.reduxState.bookingNoteReducer);
     //     if (this.props.reduxState.bookingNoteReducer=={}){
@@ -123,7 +124,7 @@ class FeedbackPage extends Component {
     addVanIssue = (van_id) => {
         //  Adds a van issue to the database for currently
         //  logged in instructor 
-//TODO use momentjs to get time issue was added
+
         console.log("running van issue update reducer");
         console.log("van_id: ", van_id);
         let statePropertyForVan = "this.state.issueForVan"+van_id;
@@ -132,13 +133,37 @@ class FeedbackPage extends Component {
         let object = {  //  object to sent to post request
             van_id:  van_id,
             issue: eval(statePropertyForVan),
+//TODO use momentjs to get time issue was added this date is a dummy date
             date: "2000-01-01",
-            instructor_id: 1,  //  Need to get from instructorCalendarReducer
-            booking_id: this.props.reduxState.bookingNoteReducer.booking_id,
+            instructor_id: this.props.reduxState.user.id,  //  instructor_id not in state, but it's matching user.id is  
+            booking_id: this.props.reduxState.bookingNoteReducer.booking_id, //  needed for FETCH_VAN_ISSUES put() in instructorAddVanIssue() of feedback SAGA after server is updated
         }
         this.props.dispatch({ type: 'INSTRUCTOR_ADD_VAN_ISSUE', payload: object})
     }
  
+    addProgramFeedback = (program_id) => {
+        console.log("entering addProgramFeedback in FeedbackPage");
+       //  Adds program feedback item to the database for currently
+        //  logged in instructor 
+
+        console.log("program_id: ", program_id);
+        let statePropertyForProgram = "this.state.feedbackForProgram"+program_id;
+        console.log("statePropertyForProgram: ", statePropertyForProgram);
+        console.log("eval(statePropertyForProgram): ", eval(statePropertyForProgram));
+        let object = {  //  object to sent to post request
+            program_id:  program_id,
+            feedback: eval(statePropertyForProgram),
+            instructor_id: this.props.reduxState.user.id,  //  instructor_id not in state, but it's matching user.id is  
+            booking_id: this.props.reduxState.bookingNoteReducer.booking_id, //  needed for FETCH_PROGRAM_FEEDBACK put() in instructorAddProgramFeedback() of feedback SAGA after server is updated
+        }
+        this.props.dispatch({ type: 'INSTRUCTOR_ADD_PROGRAM_FEEDBACK', payload: object})
+    }
+
+
+
+
+
+
     render() {
         const { classes } = this.props;
         return (
@@ -186,8 +211,9 @@ class FeedbackPage extends Component {
                         <button onClick={this.noteUpdateReducer}>UPDATE</button>
                         </div>
                     </div>
-                    {/* *******************************************
+                    {/* ***************************************
                     *****   END OF BOOKING NOTE SECTION   *****
+                    *****   BEGIN VAN ISSUES SECTION       ****
                     ******************************************* */}
                     {/* End of bigdiv below */}
                 </div >
@@ -212,7 +238,7 @@ class FeedbackPage extends Component {
                                             <TableBody>
                                                 {vanArray.map(van => {
                                                     return (
-                                                        <TableRow>
+                                                        <TableRow key={van.issue}>
                                                             <TableCell >{van.issue} <button style={{ float: "right" }} >RESOLVE</button></TableCell>
                                                         </TableRow>
                                                     )
@@ -245,12 +271,13 @@ class FeedbackPage extends Component {
                 </div>
                 {/* ******************************************************
                     *********         END OF VAN ISSUES        ***********
+                    *********         BEGIN PROGRAM FEEDBACK   ***********
                     ****************************************************** */}
                 <div className="bigdiv">
                     <div id="vandiv">
                         {this.props.reduxState.programFeedbackReducer.map(programArray => {
                             return (
-                                <div className="vandiv">
+                                <div key={programArray[0].feedback}className="vandiv">
                                     <Paper className={classes.root}>
                                         <Table style={{ backgroundColor: 'rgba(0, 0, 0, 0.09)' }} className={classes.table} >
                                             <TableHead>
@@ -261,7 +288,7 @@ class FeedbackPage extends Component {
                                             <TableBody>
                                                 {programArray.map(program => {
                                                     return (
-                                                        <TableRow>
+                                                        <TableRow key={program.feedback}>
                                                             <TableCell >{program.feedback} <button style={{ float: "right" }} >RESOLVE</button></TableCell>
                                                         </TableRow>
                                                     )
@@ -270,8 +297,15 @@ class FeedbackPage extends Component {
                                         </Table>
                                     </Paper>
                                     <div className="vanIssueInputDiv">
-                                        <input className="vanIssueInputField" type="text" />
-                                        <button className="vanIssueInputButton">SUBMIT  </button>
+                                    <input 
+                                    name={"feedbackForProgram" + programArray[0].program_id} 
+                                    className="vanIssueInputField" 
+                                    type="text" 
+                                    onChange={this.handleNameChange}/>
+                                    <button 
+                                    className="vanIssueInputButton"
+                                    onClick={() => this.addProgramFeedback(programArray[0].program_id)}
+                                    >SUBMIT  </button>
                                     </div>
                                     <p></p>
                                 </div>
