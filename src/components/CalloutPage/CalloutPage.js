@@ -26,7 +26,7 @@ const styles = theme => ({  //  Material-ui stuff
 
 });
 
-
+let recentlyVisitedFiltered = [];
 
 
 class CalloutPage extends Component {
@@ -39,6 +39,27 @@ class CalloutPage extends Component {
         call_out_information: this.props.reduxState.bookingNoteReducer.booking_note,
 
     }
+
+    componentDidMount(){
+       
+    }
+
+    filterRecentlyVisted = () => {
+        
+        
+        let recentlyVisitedAll = this.props.reduxState.clientHistoryReducer;
+        let client_id = this.props.reduxState.calloutInformationReducer.client_id;
+        recentlyVisitedAll = recentlyVisitedAll.filter(function (item) {
+            return item.client_id === client_id;
+        });
+        for (let instructorVisitObject of recentlyVisitedAll) {
+            let date = instructorVisitObject.date.substring(0, 4);
+            let namedate = instructorVisitObject.instructor_name + " in " + date;
+            recentlyVisitedFiltered.unshift(namedate);
+            if (recentlyVisitedFiltered[0] === recentlyVisitedFiltered[1]) { recentlyVisitedFiltered.shift(namedate) };
+        }
+
+    }   
 
     handleNameChange = event => {  //  text fields held in state to be submitted to reducer later
         console.log('begin handleNameChange');
@@ -58,12 +79,15 @@ class CalloutPage extends Component {
         this.props.dispatch({ type: 'UPDATE_CALLOUT_INFORMATION', payload: object })
     }
 
-
+    
 
 render() {
+    this.filterRecentlyVisted();
     const { classes } = this.props;
     return (
+ 
         <div>
+
             <div>
         <TextField
         disabled
@@ -122,6 +146,7 @@ render() {
         />
         <TextField
         disabled
+        title =  {recentlyVisitedFiltered}
         defaultValue="test"
           id="filled-textarea"
           label="Recently visited instructor"
