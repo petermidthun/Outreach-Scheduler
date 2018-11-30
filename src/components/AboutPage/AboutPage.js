@@ -9,7 +9,7 @@ const AboutPage = () => (
   <div>
     <div>
       <p>
-        This about page is for anyone to read!
+        This application helps instructors with scheduling and feedback around the various programs they need to go out and present.
       </p>
     </div>
   </div>

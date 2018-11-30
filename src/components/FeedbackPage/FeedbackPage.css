@@ -1,0 +1,42 @@
+.bigdiv {
+    width: 100%;
+    margin: auto;
+    text-align: center;
+}
+
+.smalldivs {
+        width: 400px;
+        height: 400px;
+        margin: 10px;
+        /* background-color: #67C28F; */
+        display: inline-block;
+        border-radius: 10px;
+        /* border: 2px solid #01632C; */
+    }
+
+#vandiv {
+    /* width: 800px; */
+    width: 90%;
+    display: inline-block;
+    border-radius: 10px;
+    
+}
+
+.vanIssueInputDiv{
+    width: 100%;
+    /* float: left; */
+    /* background-color: rgba(0, 0, 0, 0.5); */
+    /* rgba(0, 0, 0, 0.09); */
+    /* display: flex;
+    align-items: center; */
+}
+
+.vanIssueInputField {
+    width: 200px;
+    /* float: right; */
+}
+
+.vanIssueInputButton {
+   
+    /* float: right;*/
+} 

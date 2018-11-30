@@ -4,6 +4,10 @@ import loginMode from './loginModeReducer';
 import user from './userReducer';
 import instructorCalendarReducer from './instructorCalendarReducer';
 import clientHistoryReducer from './clientHistoryReducer';
+import calloutInformationReducer from './calloutInformationReducer';
+import bookingNoteReducer from './bookingNoteReducer';
+import vansIssuesReducer from './vansIssuesReducer'
+import programFeedbackReducer from './programFeedbackReducer'
 
 // rootReducer is the primary reducer for our entire project
 // It bundles up all of the other reducers so our project can use them.
@@ -17,6 +21,10 @@ const rootReducer = combineReducers({
   user, // will have an id and username if someone is logged in
   instructorCalendarReducer, //  will hold an instructors 
   clientHistoryReducer,     //  history of instructors that have visited a client
+  calloutInformationReducer,
+  bookingNoteReducer,
+  vansIssuesReducer,
+  programFeedbackReducer,
 });
 
 export default rootReducer;
