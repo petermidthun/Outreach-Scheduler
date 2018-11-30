@@ -159,9 +159,21 @@ class FeedbackPage extends Component {
         this.props.dispatch({ type: 'INSTRUCTOR_ADD_PROGRAM_FEEDBACK', payload: object})
     }
 
+    deleteVanIssue = (issue_id) => {
+        let object = {
+        booking_id: this.props.reduxState.bookingNoteReducer.booking_id, //  needed for FETCH_PROGRAM_FEEDBACK put() in instructorAddProgramFeedback() of feedback SAGA after server is updated
+        issue_id: issue_id,
+        }
+        this.props.dispatch({ type: 'INSTRUCTOR_DELETE_VAN_ISSUE', payload: object})
+    }
 
-
-
+    deleteProgramFeedback= (feedback_id) => {
+        let object = {
+        booking_id: this.props.reduxState.bookingNoteReducer.booking_id, //  needed for FETCH_PROGRAM_FEEDBACK put() in instructorAddProgramFeedback() of feedback SAGA after server is updated
+        feedback_id: feedback_id,
+        }
+        this.props.dispatch({ type: 'INSTRUCTOR_DELETE_PROGRAM_FEEDBACK', payload: object})
+    }
 
 
     render() {
@@ -225,7 +237,7 @@ class FeedbackPage extends Component {
                         {this.props.reduxState.vansIssuesReducer.map(vanArray => {
 
                             return (
-                                <div className="vandiv">
+                                <  div key={vanArray[0].van_id} className="vandiv">
                                     <Paper className={classes.root}>
 
 
@@ -236,18 +248,14 @@ class FeedbackPage extends Component {
                                                 </TableRow>
                                             </TableHead>
                                             <TableBody>
-                                                {vanArray.map(van => {
+                                                {vanArray.map(vanIssueArray => {
                                                     return (
-                                                        <TableRow key={van.issue}>
-                                                            <TableCell >{van.issue} <button style={{ float: "right" }} >RESOLVE</button></TableCell>
+                                                        <TableRow key={vanIssueArray.issue_id}>
+                                                            <TableCell >{vanIssueArray.issue} <button onClick={() => this.deleteVanIssue(vanIssueArray.issue_id)} style={{ float: "right" }} >RESOLVE</button></TableCell>
                                                         </TableRow>
                                                     )
                                                 })}
-                                                {/* van_id: 4, color: "Yellow", issue: "gremlin in engine", date_submitted: "2018-04-25T05:00:00.000Z", name: "Ruiz", resolved: false */}
-                                                {/* <input>Input field</input> */}
-                                                {/* <input type="text" name="company" form="my_form" />
-                                <button onClick={this.noteUpdateReducer}>SUBMIT NEW ISSUE</button>
-                                 */}
+                                                
                                             </TableBody>
 
                                         </Table>
@@ -275,21 +283,21 @@ class FeedbackPage extends Component {
                     ****************************************************** */}
                 <div className="bigdiv">
                     <div id="vandiv">
-                        {this.props.reduxState.programFeedbackReducer.map(programArray => {
+                        {this.props.reduxState.programFeedbackReducer.map(programFeedbackArray => {
                             return (
-                                <div key={programArray[0].feedback}className="vandiv">
+                                <div key={programFeedbackArray[0].feedback} className="vandiv">
                                     <Paper className={classes.root}>
                                         <Table style={{ backgroundColor: 'rgba(0, 0, 0, 0.09)' }} className={classes.table} >
                                             <TableHead>
                                                 <TableRow>
-                                                    <TableCell>{programArray[0].name} Program Feedback</TableCell>
+                                                    <TableCell>{programFeedbackArray[0].name} Program Feedback</TableCell>
                                                 </TableRow>
                                             </TableHead>
                                             <TableBody>
-                                                {programArray.map(program => {
+                                                {programFeedbackArray.map(programFeedback => {
                                                     return (
-                                                        <TableRow key={program.feedback}>
-                                                            <TableCell >{program.feedback} <button style={{ float: "right" }} >RESOLVE</button></TableCell>
+                                                        <TableRow key={programFeedback.feedback_id}>
+                                                            <TableCell >{programFeedback.feedback} <button onClick={() => this.deleteProgramFeedback(programFeedback.feedback_id)} style={{ float: "right" }} >RESOLVE</button></TableCell>
                                                         </TableRow>
                                                     )
                                                 })}
@@ -298,13 +306,13 @@ class FeedbackPage extends Component {
                                     </Paper>
                                     <div className="vanIssueInputDiv">
                                     <input 
-                                    name={"feedbackForProgram" + programArray[0].program_id} 
+                                    name={"feedbackForProgram" + programFeedbackArray[0].program_id} 
                                     className="vanIssueInputField" 
                                     type="text" 
                                     onChange={this.handleNameChange}/>
                                     <button 
                                     className="vanIssueInputButton"
-                                    onClick={() => this.addProgramFeedback(programArray[0].program_id)}
+                                    onClick={() => this.addProgramFeedback(programFeedbackArray[0].program_id)}
                                     >SUBMIT  </button>
                                     </div>
                                     <p></p>

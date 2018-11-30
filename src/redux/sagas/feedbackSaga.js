@@ -1,6 +1,6 @@
 import { takeLatest, call, put } from 'redux-saga/effects';
 import axios from 'axios';
-import { connect } from 'react-redux';
+
 
 function* updateCalloutInformation(action) {
     console.log("in updateCalloutInformation: ")
@@ -82,6 +82,29 @@ function* instructorAddProgramFeedback(action) {
   }
 }
 
+function* instructorDeleteVanIssue(action) {
+  try{
+    console.log("in instructorDeleteVanIssue Sara, action.payload: ", action.payload)
+    yield call(axios.delete, `/api/feedback/vanissue?id=${action.payload.issue_id}`);
+    yield put({ type: 'FETCH_VANS_ISSUES', booking_id: action.payload.booking_id });
+  }
+  catch (error) {
+    console.log('There was an error DELETEing your Van Issue from the database', error);
+  }
+}
+
+
+function* instructorDeleteProgramFeedback(action) {
+  try{
+    console.log("in instructorDeleteProgramFeedback, action.payload: ", action.payload)
+    yield call(axios.delete, `/api/feedback/programfeedback?id=${action.payload.feedback_id}`);
+    yield put({ type: 'FETCH_PROGRAM_FEEDBACK', booking_id: action.payload.booking_id });
+  }
+  catch (error) {
+    console.log('There was an error DELETEing your Van Issue from the database', error);
+  }
+}
+
 //  Makes sure each function runs after the others have completed
 //  to prefent asynchronicity (generator function)
 function* feedbackSaga() {
@@ -91,7 +114,9 @@ function* feedbackSaga() {
    yield takeLatest('FETCH_PROGRAM_FEEDBACK', fetchProgramFeedback);
    yield takeLatest('INSTRUCTOR_ADD_VAN_ISSUE', instructorAddVanIssue);
    yield takeLatest('INSTRUCTOR_ADD_PROGRAM_FEEDBACK', instructorAddProgramFeedback);
- }
+   yield takeLatest('INSTRUCTOR_DELETE_VAN_ISSUE', instructorDeleteVanIssue);
+   yield takeLatest('INSTRUCTOR_DELETE_PROGRAM_FEEDBACK', instructorDeleteProgramFeedback);
+  }
 
 
 export default feedbackSaga;

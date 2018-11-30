@@ -196,7 +196,7 @@ SELECT clients.client_id, booking_dates.date, instructors.name as instructor_nam
      WHERE booking_id =$2;
 
 --  Van issues reducer
-SELECT DISTINCT  vans.van_id, vans.color, van_issues.issue, van_issues.date_submitted, instructors.name, van_issues.resolved
+SELECT DISTINCT  van_issues.issue_id, vans.van_id, vans.color, van_issues.issue, van_issues.date_submitted, instructors.name, van_issues.resolved
       FROM bookings 
       JOIN booking_dates ON bookings.booking_id=booking_dates.booking_id
       JOIN vans ON booking_dates.van_id=vans.van_id
@@ -205,7 +205,7 @@ SELECT DISTINCT  vans.van_id, vans.color, van_issues.issue, van_issues.date_subm
       WHERE bookings.booking_id=${booking_id};
 
 --  Program feedback reducer
-      SELECT DISTINCT  programs.program_id, programs.name, program_feedback.feedback, instructors.name as instructor_name
+      SELECT DISTINCT  program_feedback.feedback_id, programs.program_id, programs.name, program_feedback.feedback, instructors.name as instructor_name
     FROM bookings 
     JOIN booking_dates ON bookings.booking_id=booking_dates.booking_id
     JOIN program_instances ON booking_dates.booking_date_id=program_instances.booking_date_id

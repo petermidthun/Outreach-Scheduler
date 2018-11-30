@@ -50,7 +50,7 @@ router.put('/calloutinformation', (req, res) => {
     router.get(`/vansissues/:id`, (req, res) => {
       console.log("in get at /vansissues")
       const booking_id = req.params.id;
-      const queryText = `SELECT DISTINCT  vans.van_id, vans.color, van_issues.issue, van_issues.date_submitted, instructors.name, van_issues.resolved
+      const queryText = `SELECT DISTINCT van_issues.issue_id, vans.van_id, vans.color, van_issues.issue, van_issues.date_submitted, instructors.name, van_issues.resolved
       FROM bookings 
       JOIN booking_dates ON bookings.booking_id=booking_dates.booking_id
       JOIN vans ON booking_dates.van_id=vans.van_id
@@ -72,7 +72,7 @@ router.put('/calloutinformation', (req, res) => {
   router.get(`/programfeedback/:id`, (req, res) => {
     console.log("in get at /vansissues")
     const booking_id = req.params.id;
-    const queryText = `SELECT DISTINCT  programs.program_id, programs.name, program_feedback.feedback, instructors.name as instructor_name
+    const queryText = `SELECT DISTINCT  program_feedback.feedback_id, programs.program_id, programs.name, program_feedback.feedback, instructors.name as instructor_name
     FROM bookings 
     JOIN booking_dates ON bookings.booking_id=booking_dates.booking_id
     JOIN program_instances ON booking_dates.booking_date_id=program_instances.booking_date_id
@@ -134,5 +134,29 @@ router.post('/instructoraddProgramFeedback', (req, res) => {
       res.sendStatus(500);
     });
 });
+
+  //  DELETE VAN ISSUE FROM SERVER
+  router.delete(`/vanissue`, (req, res) => {
+    console.log("req.query.id: ", req.query.id);
+    const queryText = 'DELETE FROM van_issues WHERE issue_id=$1';
+    pool.query(queryText, [req.query.id])
+      .then(() => { res.sendStatus(200); })
+      .catch((err) => {
+        console.log('Error deleting a van issue: ', err);
+        res.sendStatus(500);
+      });
+  });
+
+ //  DELETE VAN ISSUE FROM SERVER
+ router.delete(`/programfeedback`, (req, res) => {
+  console.log("req.query.id: ", req.query.id);
+  const queryText = 'DELETE FROM program_feedback WHERE feedback_id=$1';
+  pool.query(queryText, [req.query.id])
+    .then(() => { res.sendStatus(200); })
+    .catch((err) => {
+      console.log('Error deleting a van issue: ', err);
+      res.sendStatus(500);
+    });
+}); 
 
 module.exports = router;
