@@ -3,45 +3,196 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { withStyles } from '@material-ui/core/styles';
 import TextField from '@material-ui/core/TextField';
+import Table from '@material-ui/core/Table';
+import TableBody from '@material-ui/core/TableBody';
+import TableCell from '@material-ui/core/TableCell';
+import TableHead from '@material-ui/core/TableHead';
+import TableRow from '@material-ui/core/TableRow';
+import Paper from '@material-ui/core/Paper';
+import Button from '@material-ui/core/Button';
+import './CalloutPage.css'
 
-const styles = theme => ({
+//  Todos commented on far left
+//  ToDo:  CRITICAL fields are emptied on refresh, but still update
+//  to overwrite originals.  This is BAD!!
+
+
+
+const styles = theme => ({  //  Material-ui stuff
     textField: {
         marginLeft: 5,
         marginRight: 5,
-      },
+    },
 
 });
 
+
+
+
 class CalloutPage extends Component {
-    render() {
-        const { classes } = this.props;
-        return (
+
+    state = {
+        //  Set initial state to be for the booking note and call out information
+        //  associated with this program_instance's (from userpage/homepage/calendarpage) 
+        //  client and booking as specified in reduxState
+        booking_note: this.props.reduxState.bookingNoteReducer.booking_note,
+        call_out_information: this.props.reduxState.bookingNoteReducer.booking_note,
+
+    }
+
+    handleNameChange = event => {  //  text fields held in state to be submitted to reducer later
+        console.log('begin handleNameChange');
+        this.setState({
+            [event.target.name]: event.target.value,
+        });
+        console.log("handleNameChange complete, state: ", this.state);
+    }
+
+    informationUpdateReducer = event => {
+        console.log("entering informationUpdateReducer feedbackpage")
+        event.preventDefault();
+        let object = {
+            call_out_information: this.state.call_out_information,
+            client_id: this.props.reduxState.calloutInformationReducer.client_id,
+        };
+        this.props.dispatch({ type: 'UPDATE_CALLOUT_INFORMATION', payload: object })
+    }
+
+
+
+render() {
+    const { classes } = this.props;
+    return (
+        <div>
+            <div>
+        <TextField
+        disabled
+        defaultValue="Shelley"
+          id="filled-textarea"
+          label="Contact Name"
+          placeholder="Placeholder"
+          multiline
+          className={classes.textField}
+          margin="normal"
+          variant="filled"
+        />
+        <TextField
+        disabled
+        defaultValue="651 555 4321"
+          id="filled-textarea"
+          label="Number"
+          placeholder="Placeholder"
+          multiline
+          className={classes.textField}
+          margin="normal"
+          variant="filled"
+        />
+        <TextField
+        disabled
+        defaultValue="Volunteer"
+          id="filled-textarea"
+          label="Role"
+          placeholder="Placeholder"
+          multiline
+          className={classes.textField}
+          margin="normal"
+          variant="filled"
+        />
+        <TextField
+        disabled
+        defaultValue="Kittson County"
+          id="filled-textarea"
+          label="Client"
+          placeholder="Placeholder"
+          multiline
+          className={classes.textField}
+          margin="normal"
+          variant="filled"
+        />
+        <TextField
+        disabled
+        defaultValue="Shelley@AOL.com"
+          id="filled-textarea"
+          label="Contact E-mail"
+          placeholder="Placeholder"
+          multiline
+          className={classes.textField}
+          margin="normal"
+          variant="filled"
+        />
+        <TextField
+        disabled
+        defaultValue="test"
+          id="filled-textarea"
+          label="Recently visited instructor"
+          placeholder="Placeholder"
+          multiline
+          className={classes.textField}
+          margin="normal"
+          variant="filled"
+        />
+            </div>
+            <div>
+                <Table className={classes.table} >
+                    <TableHead>
+                        <TableRow>
+
+                            <TableCell >Program</TableCell>
+                            <TableCell> Date </TableCell>
+                            <TableCell>Time</TableCell>
+
+                        </TableRow>
+                    </TableHead>
+                    <TableBody>
+                        {this.props.reduxState.instructorCalendarReducer.map(row => {
+
+                            return (
+                                <TableRow key={row.instance_id}>
+
+                                    <TableCell title={row.booking_note}>{row.name}</TableCell>
+                                    <TableCell >{row.date.substring(0, 10)}</TableCell>
+                                    <TableCell>{row.time}</TableCell>
+
+
+                                </TableRow>
+                            )
+                        })}
+
+
+                    </TableBody>
+                </Table>
+            </div>
+            <div>
+                <TextField
+                    name="call_out_information"
+                    style={{ width: 800 }}
+                    id="filled-multiline-static"
+                    label="Call out information for this client:"
+                    multiline
+                    rows="20"
+                    defaultValue={this.props.reduxState.calloutInformationReducer.call_out_information}
+                    className={classes.textField}
+                    margin="normal"
+                    variant="filled"
+                    onChange={this.handleNameChange}
+                />
+            </div>
             <div>
                 <span>
-                <label>Contact Name:</label>
-                </span><span>
-                <p>Shelley</p>
-                </span><span>
-                <label>Contact Number:</label>
-                </span><span>
-                <p> 651 234 5563</p>
-                </span><span>
-                <label>Contact Role:</label>
-                </span><span>
-                <p> PTA President </p>
+                <button onClick={this.informationUpdateReducer}>UPDATE</button>
                 </span>
-                
-                <div>
-                <label>Client:</label>
-                <label>E-mail:</label>
-                </div>
-                    
-            </div >
-        ) //  end return
-    }  //  end render
-}  //  End component FeedbackPage
+                {/* <span><FormControlLabel control={<Checkbox value="checkedC" />} label="Call out complete" />
+  
+ </span> */}
+            </div>
+        </div>
 
-const mapReduxStateToProps = ( reduxState ) => ({ reduxState });
+    ) //  end return
+}  //  end render
+}  //  End component CalloutPage
+
+const mapReduxStateToProps = (reduxState) => ({ reduxState });
 
 //  connect index to calendar component so we have access to reduxState props(erties)
 export default connect(mapReduxStateToProps)(withStyles(styles)(CalloutPage));
+

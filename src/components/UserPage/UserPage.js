@@ -11,6 +11,7 @@ import TableRow from '@material-ui/core/TableRow';
 import Paper from '@material-ui/core/Paper';
 import Checkbox from '@material-ui/core/Checkbox';
 import Tooltip from '@material-ui/core/Tooltip';
+import { withRouter } from 'react-router-dom';
 
 //  Todos commented on far left
 //  Vans should be per date here in updateReducers and also in feedback page,
@@ -45,8 +46,9 @@ class UserPage extends Component {
 
     updateReducers = (client_id, booking_id) => {
         console.log('running updateReducers in UserPage, bookingid: ', booking_id, ' clientid: ', client_id);
-        this.props.dispatch({ type: 'FETCH_BOOKING_NOTE', id: booking_id });
-        this.props.dispatch({ type: 'FETCH_CALL_OUT_INFORMATION', id: client_id });
+         this.props.dispatch({ type: 'FETCH_BOOKING_NOTE', id: booking_id });
+         this.props.dispatch({ type: 'FETCH_CALL_OUT_INFORMATION', id: client_id });
+         //this.props.history.push('/callout')
     }
 
     render() {
@@ -114,9 +116,12 @@ class UserPage extends Component {
                                         <TableCell><Checkbox color='default' checked={row.callout} />
                                          {/* MouseUp does not work for the ref below as the specified reducers reset when the referenced page loads... */}
 {/* ToDo:  Better to do this by loading the component rather than navigating to the page address?*/}
-                                            <a href="http://localhost:3000/#/callout" onMouseDown={() => this.updateReducers(row.client_id, row.booking_id)}>
-                                                Complete
+                                            <a href="http://localhost:3000/#/callout" onMouseDown={() => this.updateReducers(row.client_id, row.booking_id)}>  
+                                                Call Out
                                         </a>
+                                            {/* <button onClick={() => this.updateReducers(row.client_id, row.booking_id)}>
+                                                Complete
+                                        </button> */}
                                         </TableCell>
                                         <TableCell><Checkbox color='default' checked={row.thankyou} /></TableCell>
                                         <TableCell><Checkbox disabled />
@@ -154,6 +159,8 @@ class UserPage extends Component {
 //  Make reduxstate where it is available here as reduxState
 const mapReduxStateToProps = ( reduxState ) => ({ reduxState });
 
+const userPageWithRouter = withRouter(UserPage)
+
 //  connect reduxstate to userpage component so we have access to reduxState props(erties)
 //  also connect styles for material-ui
-export default connect(mapReduxStateToProps)(withStyles(styles)(UserPage));
+export default connect(mapReduxStateToProps)(withStyles(styles)(userPageWithRouter));
