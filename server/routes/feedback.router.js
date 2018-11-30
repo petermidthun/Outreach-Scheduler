@@ -95,12 +95,12 @@ router.put('/calloutinformation', (req, res) => {
 router.post('/instructoraddvanissue', (req, res) => {
   const newVanIssueObject = req.body;
   console.log('newVanIssueObject being sent to server: ', newVanIssueObject);
-  const queryText = `INSERT INTO "van_issues" ("instructor_id", "van_id", "date_submitted", "issue")
-  VALUES ($1, $2, $3, $4)`;
+  const queryText = `INSERT INTO "van_issues" ("instructor_id", "van_id",  "issue")
+  VALUES ($1, $2, $3)`;
   const queryValues = [
     newVanIssueObject.instructor_id,
     newVanIssueObject.van_id,
-    newVanIssueObject.date,
+    //newVanIssueObject.date,
     newVanIssueObject.issue,
   ];
   pool.query(queryText, queryValues)
@@ -108,7 +108,7 @@ router.post('/instructoraddvanissue', (req, res) => {
         res.sendStatus(201); 
       })
     .catch((err) => {
-      console.log('Error in post to portfolio database query', err);
+      console.log('Error in post to van issue database query', err);
       res.sendStatus(500);
     });
 });

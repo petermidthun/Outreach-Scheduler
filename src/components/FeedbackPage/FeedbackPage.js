@@ -39,7 +39,7 @@ class FeedbackPage extends Component {
         // ITERATIONS OF PROGRAMS/VANS AS EACH ITERATION WOULD
         // NEED IT'S OWN STATE AND SHOULD BE A COMPONENT...
         // WAIT, WILL setSTATE CREATE A NEW ONE PER ID IF
-        // WE INCLUDE ID IN EVENT.TARGET.NAME?
+        // WE INCLUDE ID IN EVENT.TARGET.NAME?  YES
 
     }
 
@@ -69,7 +69,7 @@ class FeedbackPage extends Component {
 
 
     //  ****  TRYING TO DEAL WITH NOTE AND INFO FIELDS EMPTYING ON REFRESH  ****
-    // componentDidMount() {
+    // componentDidMount(set reducers, then push navurl onto that navigation thing) 
     //     DISPATCH A FETCH HERE?
     //     console.log("didmount Feedback page");
     //     console.log(this.props.reduxState.bookingNoteReducer);
@@ -121,15 +121,14 @@ class FeedbackPage extends Component {
         };
         this.props.dispatch({ type: 'UPDATE_CALLOUT_INFORMATION', payload: object})
     }
-    addVanIssue = (van_id) => {
+
+    addVanIssue = (van_id, stateParameterToReset) => {
         //  Adds a van issue to the database for currently
         //  logged in instructor 
-
+        
         console.log("running van issue update reducer");
         console.log("van_id: ", van_id);
         let statePropertyForVan = "this.state.issueForVan"+van_id;
-        console.log("statePropertyForVan: ", statePropertyForVan);
-        console.log("eval(statePropertyForVan): ", eval(statePropertyForVan));
         let object = {  //  object to sent to post request
             van_id:  van_id,
             issue: eval(statePropertyForVan),
@@ -138,7 +137,17 @@ class FeedbackPage extends Component {
             instructor_id: this.props.reduxState.user.id,  //  instructor_id not in state, but it's matching user.id is  
             booking_id: this.props.reduxState.bookingNoteReducer.booking_id, //  needed for FETCH_VAN_ISSUES put() in instructorAddVanIssue() of feedback SAGA after server is updated
         }
+        
+        console.log("STATESTATESTATESTATE: ", this.state);
+        console.log("stateParametersToReset passed in: ", stateParameterToReset)
+        //let stateParameterToReset2 = JSON.parse(stateParameterToReset)
+//  Might need to spread this to retain state
+        this.setState({
+            stateParameterToReset: "",
+        });
+        console.log("STATESTATESTATESTATE: ", this.state);
         this.props.dispatch({ type: 'INSTRUCTOR_ADD_VAN_ISSUE', payload: object})
+        
     }
  
     addProgramFeedback = (program_id) => {
@@ -266,7 +275,7 @@ class FeedbackPage extends Component {
                                     <div className="vanIssueInputDiv">
 
                                         <input name={"issueForVan" + vanArray[0].van_id} className="vanIssueInputField" type="text" onChange={this.handleNameChange}/>
-                                        <button onClick={() => this.addVanIssue(vanArray[0].van_id)} className="vanIssueInputButton">SUBMIT  </button>
+                                        <button onClick={() => this.addVanIssue(vanArray[0].van_id, "issueForVan" + vanArray[0].van_id)} className="vanIssueInputButton">SUBMIT  </button>
 
                                     </div>
                                     <p></p>
