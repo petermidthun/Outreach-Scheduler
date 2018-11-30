@@ -12,6 +12,11 @@ const AboutPage = () => (
         This application helps instructors with scheduling and feedback around the various programs they need to go out and present.
       </p>
     </div>
+    <div>
+      <p>
+        Technologies:  Javascript, Html, Node, sql, express, React, 
+      </p>
+    </div>
   </div>
 );
 

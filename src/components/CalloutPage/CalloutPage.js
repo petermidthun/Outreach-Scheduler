@@ -29,7 +29,37 @@ const styles = theme => ({  //  Material-ui stuff
 
 
 
-class FeedbackPage extends Component {
+class CalloutPage extends Component {
+
+    state = {
+        //  Set initial state to be for the booking note and call out information
+        //  associated with this program_instance's (from userpage/homepage/calendarpage) 
+        //  client and booking as specified in reduxState
+        booking_note: this.props.reduxState.bookingNoteReducer.booking_note,
+        call_out_information: this.props.reduxState.bookingNoteReducer.booking_note,
+
+    }
+
+    handleNameChange = event => {  //  text fields held in state to be submitted to reducer later
+        console.log('begin handleNameChange');
+        this.setState({
+            [event.target.name]: event.target.value,
+        });
+        console.log("handleNameChange complete, state: ", this.state);
+    }
+
+    informationUpdateReducer = event => {
+        console.log("entering informationUpdateReducer feedbackpage")
+        event.preventDefault();
+        let object = {
+            call_out_information: this.state.call_out_information,
+            client_id: this.props.reduxState.calloutInformationReducer.client_id,
+        };
+        this.props.dispatch({ type: 'UPDATE_CALLOUT_INFORMATION', payload: object })
+    }
+
+
+
 render() {
     const { classes } = this.props;
     return (
@@ -84,6 +114,17 @@ render() {
         defaultValue="Shelley@AOL.com"
           id="filled-textarea"
           label="Contact E-mail"
+          placeholder="Placeholder"
+          multiline
+          className={classes.textField}
+          margin="normal"
+          variant="filled"
+        />
+        <TextField
+        disabled
+        defaultValue="test"
+          id="filled-textarea"
+          label="Recently visited instructor"
           placeholder="Placeholder"
           multiline
           className={classes.textField}
@@ -148,10 +189,10 @@ render() {
 
     ) //  end return
 }  //  end render
-}  //  End component FeedbackPage
+}  //  End component CalloutPage
 
 const mapReduxStateToProps = (reduxState) => ({ reduxState });
 
 //  connect index to calendar component so we have access to reduxState props(erties)
-export default connect(mapReduxStateToProps)(withStyles(styles)(FeedbackPage));
+export default connect(mapReduxStateToProps)(withStyles(styles)(CalloutPage));
 
