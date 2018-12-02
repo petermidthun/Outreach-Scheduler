@@ -170,6 +170,7 @@ render() {
                     </TableHead>
                     <TableBody>
                         {this.props.reduxState.instructorCalendarReducer.map(row => {
+                            if(this.props.reduxState.bookingNoteReducer.booking_id == row.booking_id) {
 
                             return (
                                 <TableRow key={row.instance_id}>
@@ -181,6 +182,7 @@ render() {
 
                                 </TableRow>
                             )
+                        } //  End if
                         })}
 
 
