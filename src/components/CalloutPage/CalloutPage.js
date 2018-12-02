@@ -197,8 +197,9 @@ render() {
             </div>
             <div>
                 <TextField
+                    fullWidth
                     name="call_out_information"
-                    style={{ width: 800 }}
+                    margin="normal"
                     id="filled-multiline-static"
                     label="Call out information for this client:"
                     multiline
@@ -210,8 +211,8 @@ render() {
                     onChange={this.handleNameChange}
                 />
             </div>
-            <div>
-                <span>
+            <div id="updateButtonDiv">
+                <span id="updateButtonSpan">
                 <button onClick={this.informationUpdateReducer}>UPDATE</button>
                 </span>
                 {/* <span><FormControlLabel control={<Checkbox value="checkedC" />} label="Call out complete" />

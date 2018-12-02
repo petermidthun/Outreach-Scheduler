@@ -1,3 +1,11 @@
 .list-horizontal-display > div {
     display: inline-block;
 }
+
+#updateButtonSpan {
+    text-align: center; 
+}
+
+#updateButtonDiv {
+    text-align: center; 
+}
