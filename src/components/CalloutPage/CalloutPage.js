@@ -26,6 +26,9 @@ const styles = theme => ({  //  Material-ui stuff
 
 });
 
+//  Holds an array of instructor visit objects that
+//  has been filtred for duplicates and eliminates
+//  more recent visits of the same instructor 
 let recentlyVisitedFiltered = [];
 
 
@@ -44,9 +47,12 @@ class CalloutPage extends Component {
        
     }
 
-    filterRecentlyVisted = () => {
-        
-        
+    filterRecentlyVisited = () => {
+        console.log("Entering filterRecentlyVisited in Callout Page")
+        //  This code messily takes the array of all instances of when an instructor
+        //  visited the client for this program instance, then filters duplicates
+        //  and less recent visits for the same instructor 
+        recentlyVisitedFiltered = [];
         let recentlyVisitedAll = this.props.reduxState.clientHistoryReducer;
         let client_id = this.props.reduxState.calloutInformationReducer.client_id;
         recentlyVisitedAll = recentlyVisitedAll.filter(function (item) {
@@ -82,7 +88,7 @@ class CalloutPage extends Component {
     
 
 render() {
-    this.filterRecentlyVisted();
+    this.filterRecentlyVisited();
     const { classes } = this.props;
     return (
  
