@@ -127,7 +127,7 @@ class UserPage extends Component {
                                         </button> */}
                                         </TableCell>
                                         <TableCell><Checkbox color='default'  /></TableCell>
-                                        <TableCell><Checkbox disabled checked={row.feedback}/>
+                                        <TableCell><Checkbox color='default' checked={row.feedback}/>
                                         {/* MouseUp does not work for the ref below as the specified reducers reset when the referenced page loads... */}
 {/* ToDo:  Better to do this by loading the component rather than navigating to the page address?*/}   
                                         <a href="http://localhost:3000/#/feedback" onMouseDown={() => this.updateReducers(row.client_id, row.booking_id)}>  

@@ -45,5 +45,12 @@
     width: 200px;
     /* float: right; */
 }
+#returnedDiv {
+    width: 80%;
+
+    display: inline-block;
+    text-align: center;
+    /* margin: auto; */
+}
 
  

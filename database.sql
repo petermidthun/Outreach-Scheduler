@@ -76,7 +76,8 @@ CREATE TABLE "bookings" (
     "booking_note" TEXT,
     "callout" boolean DEFAULT FALSE,    --  has client been called for this booking
     "thankyou" boolean DEFAULT FALSE,   --  has client been thanked after this booking
-    "tourorovernight" boolean DEFAULT FALSE   --  is this booking an overnight or regional tour
+    "tourorovernight" boolean DEFAULT FALSE,   --  is this booking an overnight or regional tour
+    "feedback" boolean DEFAULT FALSE,
 );
 
 INSERT INTO "bookings" ("client_id", "booking_note", "tourorovernight") 

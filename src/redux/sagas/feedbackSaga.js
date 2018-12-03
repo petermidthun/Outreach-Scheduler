@@ -107,16 +107,7 @@ function* instructorDeleteProgramFeedback(action) {
 
 
 
-// function* updateBookingNote(action) {
-//   console.log("in updateBookingNote")
-//   try {
-//     yield call(axios.put, '/api/feedback/bookingnote', action.payload);
-//     yield put({ type: 'UPDATE_BOOKINGNOTE_REDUCER', payload: action.payload });
-//   }
-//   catch (error) {
-//     console.log('error with bookingnote get request', error);
-//   }
-// }
+
 function* calloutCompleted(action) {
   console.log("entered calloutCompleted function in feedbackSaga, action: ", action)
   let booking_id = action.payload;
@@ -124,6 +115,21 @@ function* calloutCompleted(action) {
   try {
     //  query server
     yield call(axios.put, `/api/callout/calloutcompleted/${booking_id}`);
+    //  Set reducer
+  //   yield put({ type: 'CALLOUTCOMPLETED', payload: response });
+  }
+  catch (error) {
+    console.log('error with vanissues get request', error);
+  }
+}
+
+function* feedbackCompleted(action) {
+  console.log("entered feedbackCompleted function in feedbackSaga, action: ", action)
+  let booking_id = action.payload;
+  console.log("in feedbackCompleted in feedback saga, booking id: ", booking_id)
+  try {
+    //  query server
+    yield call(axios.put, `/api/feedback/feedbackcompleted/${booking_id}`);
     //  Set reducer
   //   yield put({ type: 'CALLOUTCOMPLETED', payload: response });
   }
@@ -144,6 +150,7 @@ function* feedbackSaga() {
    yield takeLatest('INSTRUCTOR_DELETE_VAN_ISSUE', instructorDeleteVanIssue);
    yield takeLatest('INSTRUCTOR_DELETE_PROGRAM_FEEDBACK', instructorDeleteProgramFeedback);
    yield takeLatest('CALLOUT_COMPLETED', calloutCompleted);
+   yield takeLatest('FEEDBACK_COMPLETED', feedbackCompleted);
   }
 
 

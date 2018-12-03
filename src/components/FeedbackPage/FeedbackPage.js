@@ -11,7 +11,8 @@ import TableHead from '@material-ui/core/TableHead';
 import TableRow from '@material-ui/core/TableRow';
 import Paper from '@material-ui/core/Paper';
 import Button from '@material-ui/core/Button';
-import './FeedbackPage.css'
+import './FeedbackPage.css';
+import Checkbox from '@material-ui/core/Checkbox';
 
 //  Todos commented on far left
 //  ToDo:  CRITICAL fields are emptied on refresh, but still update
@@ -184,6 +185,24 @@ class FeedbackPage extends Component {
         this.props.dispatch({ type: 'INSTRUCTOR_DELETE_PROGRAM_FEEDBACK', payload: object})
     }
 
+    checkCallCompleted = () => {
+        let booking_id = this.props.reduxState.bookingNoteReducer.booking_id;
+        
+        for (let element of this.props.reduxState.instructorCalendarReducer) {
+            console.log("booking_id: ", booking_id);
+            console.log("element.booking_id: ", element.booking_id);
+            if (element.booking_id == booking_id) {
+                return this.props.reduxState.instructorCalendarReducer.feedback;
+            }
+        }
+    }
+
+    feedbackCompleted = (booking_id) => {
+        console.log("in feedbackCompleted in CalloutPage, booking_id: ", booking_id)
+        console.log('reducer booking id', this.props.reduxState.bookingNoteReducer.booking_id)
+        this.props.dispatch({ type: 'FEEDBACK_COMPLETED', payload: booking_id })
+    }
+
 
     render() {
         const { classes } = this.props;
@@ -333,7 +352,18 @@ class FeedbackPage extends Component {
                 {/* *********************************
                     ***  END OF PROGRAM FEEDBACK  *** 
                     **********************************/}
-
+<div><p></p></div>
+            <div id="returnedDiv">
+                
+            
+        <span>Complete Call: </span>
+        
+        <Checkbox
+          checked={this.checkCallCompleted()}
+             color="default"
+             onClick={() => this.feedbackCompleted(this.props.reduxState.bookingNoteReducer.booking_id)}
+        />
+            </div>
                 {/* End of return below */}
             </div>
         ) //  end return
