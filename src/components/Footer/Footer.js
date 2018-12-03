@@ -8,7 +8,7 @@ import './Footer.css'
 
 const Footer = () => (
   <footer>
-    &copy; Peter Midthun
+    {/* &copy; Peter Midthun */}
   </footer>
 );
 

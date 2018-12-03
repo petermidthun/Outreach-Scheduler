@@ -41,9 +41,9 @@ CREATE TABLE "instructors" (
 
 INSERT INTO "instructors" ("name", "total_hours", "user_id")
 VALUES 
-('Ruiz', 112, 1),
-('Jaquan', 115, 2),
-('keesha', 55, 3);
+('Juan', 112, 1),
+('Inmar', 115, 2),
+('Keesha', 55, 3);
 
 --  Holds a list of programs that might be purchased/presented
 
@@ -152,8 +152,8 @@ VALUES
 (5, 3, 3, '09:00:00', FALSE ),
 (6, 1, 2, '011:00:00', FALSE ),  
 (7, 2, 1, '010:00:00', FALSE ), 
-(8, 2, 3, '010:00:00', FALSE ),
-(9, 2, 2, '010:00:00', FALSE );
+(8, 2, 2, '010:00:00', FALSE ),
+(9, 2, 3, '010:00:00', FALSE );
 
 
 --  Instructor Calendar View

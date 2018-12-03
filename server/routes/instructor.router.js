@@ -29,7 +29,7 @@ router.get(`/programming/:id`, (req, res) => {
 
 router.get(`/clienthistory`, (req, res) => {
     console.log("in get at /clienthistory")
-    const queryText = `SELECT clients.client_id, booking_dates.date, instructors.name as instructor_name
+    const queryText = `SELECT clients.client_id, booking_dates.date, instructors.instructor_id, instructors.name as instructor_name
     FROM program_instances
     JOIN booking_dates ON program_instances.booking_date_id=booking_dates.booking_date_id
     JOIN instructors ON program_instances.instructor_id=instructors.instructor_id

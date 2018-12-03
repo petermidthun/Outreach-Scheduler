@@ -30,7 +30,7 @@ const styles = theme => ({  //  Material-ui stuff
 //  has been filtred for duplicates and eliminates
 //  more recent visits of the same instructor 
 let recentlyVisitedFiltered = [];
-
+let recentlyVisitedInstructor = "None";
 
 class CalloutPage extends Component {
 
@@ -56,15 +56,24 @@ class CalloutPage extends Component {
         let recentlyVisitedAll = this.props.reduxState.clientHistoryReducer;
         let client_id = this.props.reduxState.calloutInformationReducer.client_id;
         recentlyVisitedAll = recentlyVisitedAll.filter(function (item) {
-            return item.client_id === client_id;
+            return item.client_id === client_id;  
         });
+
+        let instructor_id = this.props.reduxState.user.id
+        recentlyVisitedAll = recentlyVisitedAll.filter(function (item) {
+            return item.instructor_id != instructor_id;
+        });
+
         for (let instructorVisitObject of recentlyVisitedAll) {
             let date = instructorVisitObject.date.substring(0, 4);
             let namedate = instructorVisitObject.instructor_name + " in " + date;
             recentlyVisitedFiltered.unshift(namedate);
             if (recentlyVisitedFiltered[0] === recentlyVisitedFiltered[1]) { recentlyVisitedFiltered.shift(namedate) };
         }
-
+        if(recentlyVisitedFiltered != []){
+            recentlyVisitedInstructor = recentlyVisitedFiltered[0];
+        }
+        console.log("most recent visitor: ", recentlyVisitedInstructor)
     }   
 
     handleNameChange = event => {  //  text fields held in state to be submitted to reducer later
@@ -91,8 +100,8 @@ render() {
     this.filterRecentlyVisited();
     const { classes } = this.props;
     return (
- 
-        <div>
+        <div id="returnedDiv">
+        <div id="returnedDiv">
 
             <div>
         <TextField
@@ -153,9 +162,9 @@ render() {
         <TextField
         disabled
         title =  {recentlyVisitedFiltered}
-        defaultValue="test"
+        defaultValue= {recentlyVisitedInstructor}
           id="filled-textarea"
-          label="Recently visited instructor"
+          label="Most recently visited by"
           placeholder="Placeholder"
           multiline
           className={classes.textField}
@@ -220,7 +229,7 @@ render() {
  </span> */}
             </div>
         </div>
-
+        </div>
     ) //  end return
 }  //  end render
 }  //  End component CalloutPage
