@@ -10,7 +10,8 @@ import TableHead from '@material-ui/core/TableHead';
 import TableRow from '@material-ui/core/TableRow';
 import Paper from '@material-ui/core/Paper';
 import Button from '@material-ui/core/Button';
-import './CalloutPage.css'
+import './CalloutPage.css';
+import Checkbox from '@material-ui/core/Checkbox';
 
 //  Todos commented on far left
 //  ToDo:  CRITICAL fields are emptied on refresh, but still update
@@ -44,8 +45,23 @@ class CalloutPage extends Component {
     }
 
     componentDidMount(){
-       
+        
     }
+
+    checkCallCompleted = () => {
+        let booking_id = this.props.reduxState.bookingNoteReducer.booking_id;
+        
+        for (let element of this.props.reduxState.instructorCalendarReducer) {
+            console.log("booking_id: ", booking_id);
+            console.log("element.booking_id: ", element.booking_id);
+            if (element.booking_id == booking_id) {
+                return this.props.reduxState.instructorCalendarReducer.callout;
+            }
+        }
+    }
+
+
+
 
     filterRecentlyVisited = () => {
         console.log("Entering filterRecentlyVisited in Callout Page")
@@ -70,7 +86,7 @@ class CalloutPage extends Component {
             recentlyVisitedFiltered.unshift(namedate);
             if (recentlyVisitedFiltered[0] === recentlyVisitedFiltered[1]) { recentlyVisitedFiltered.shift(namedate) };
         }
-        if(recentlyVisitedFiltered != []){
+        if(recentlyVisitedFiltered.length != 0){
             recentlyVisitedInstructor = recentlyVisitedFiltered[0];
         }
         console.log("most recent visitor: ", recentlyVisitedInstructor)
@@ -92,6 +108,12 @@ class CalloutPage extends Component {
             client_id: this.props.reduxState.calloutInformationReducer.client_id,
         };
         this.props.dispatch({ type: 'UPDATE_CALLOUT_INFORMATION', payload: object })
+    }
+
+    calloutCompleted = (booking_id) => {
+        console.log("in calloutCompleted in CalloutPage, booking_id: ", booking_id)
+        console.log('reducer booking id', this.props.reduxState.bookingNoteReducer.booking_id)
+        this.props.dispatch({ type: 'CALLOUT_COMPLETED', payload: booking_id })
     }
 
     
@@ -222,11 +244,31 @@ render() {
             </div>
             <div id="updateButtonDiv">
                 <span id="updateButtonSpan">
-                <button onClick={this.informationUpdateReducer}>UPDATE</button>
+                <button onClick={this.informationUpdateReducer}>UPDATE INFORMATION</button>
                 </span>
                 {/* <span><FormControlLabel control={<Checkbox value="checkedC" />} label="Call out complete" />
   
  </span> */}
+            </div>
+            <div><p></p></div>
+            <div>
+                
+            
+        <span>Complete Call: </span>
+        {/* {this.props.reduxState.instructorCalendarReducer.map(Item => {
+            if(Item.booking_id == this.props.reduxState.bookingNoteReducer.booking_id){ */}
+       
+          
+                   
+                
+
+        <Checkbox
+          checked={this.checkCallCompleted()}
+          onClick={() => this.calloutCompleted(this.props.reduxState.bookingNoteReducer.booking_id)}
+          color="default"
+        />
+
+            {/* } */}
             </div>
         </div>
         </div>
