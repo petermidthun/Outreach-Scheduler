@@ -1,8 +1,18 @@
 .bigdiv {
-    width: 100%;
+    width: 95%;
     margin: auto;
     text-align: center;
 }
+
+.tablediv {
+    width: 800px;
+        
+        margin: 10px;
+        /* background-color: #67C28F; */
+        display: inline-block;
+        border-radius: 10px;
+        /* border: 2px solid #01632C; */
+    }
 
 .smalldivs {
         width: 400px;
@@ -15,8 +25,8 @@
     }
 
 #vandiv {
-    /* width: 800px; */
-    width: 90%;
+    width: 820px;
+    /* width: 95%; */
     display: inline-block;
     border-radius: 10px;
     
@@ -36,7 +46,4 @@
     /* float: right; */
 }
 
-.vanIssueInputButton {
-   
-    /* float: right;*/
-} 
+ 

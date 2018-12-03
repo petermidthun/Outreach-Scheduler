@@ -143,14 +143,14 @@ class UserPage extends Component {
                         </TableBody>
                     </Table>
                 </Paper>
-                <p> Calendar </p>
+                {/* <p> Calendar </p>
                 <h1 id="welcome">
                     Welcome, {this.props.reduxState.user.username}!
      </h1>
                 <p>Your ID is: {this.props.reduxState.user.id}</p>
                 <p>Your are a(n): {this.props.reduxState.user.type}</p>
                 <LogOutButton className="log-in" />
-                <pre>{JSON.stringify(this.props.reduxState)}</pre>
+                <pre>{JSON.stringify(this.props.reduxState)}</pre> */}
 
             </div>
         )//  End return
